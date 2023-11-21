@@ -1,9 +1,10 @@
 import React from "react";
+import { Chat } from "../components";
 
 const Main = () => {
   return (
-    <div>
-      <h1>Main page</h1>
+    <div className="w-full h-screen bg-slate-800">
+      <Chat />
     </div>
   );
 };
