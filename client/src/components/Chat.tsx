@@ -44,7 +44,7 @@ const Chat = () => {
         <Box>
           {conversation.map((message: Message, index: number) => {
             return (
-              <Box className="flex mb-2 w-full">
+              <Box className="flex mb-2 w-full" key={index}>
                 <div className="w-8 h-8 rounded-full bg-blue-200 mr-2" />
                 <Box className="flex-1">
                   <Typography
