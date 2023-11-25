@@ -4,7 +4,6 @@ import { IRootState } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import { addToChat } from "../redux/slices/chat-slice";
 import { Message } from "../interfaces/message";
-import OpenAI from "openai";
 import axios from "axios";
 
 const Chat = () => {
