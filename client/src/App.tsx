@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Main } from "./pages";
 
 function App() {
-  React.useEffect(() => {
-    axios.get("http://localhost:8000/testing").then((response) => {
-      console.log(response);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   axios.get("http://localhost:8000/testing").then((response) => {
+  //     console.log(response);
+  //   });
+  // }, []);
 
   return (
     <Router>

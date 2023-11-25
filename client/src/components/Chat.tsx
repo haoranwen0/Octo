@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Box, TextField, Typography } from "@mui/material";
 import { IRootState } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import { addToChat } from "../redux/slices/chat-slice";
 import { Message } from "../interfaces/message";
+import OpenAI from "openai";
+import axios from "axios";
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -11,12 +13,28 @@ const Chat = () => {
 
   const [message, setMessage] = useState<string>("");
 
-  function onSubmit() {
+  async function onSubmit() {
     const serializedMessage: Message = {
       role: "user",
       content: message,
     };
     dispatch(addToChat(serializedMessage));
+    try {
+      const response = await axios.get("http://localhost:8000/gptResponse", {
+        params: {
+          message: message,
+        },
+      });
+      const diagram: string = response.data.data[0].content[0].text.value;
+      console.log(console.log(diagram));
+      const diagramSerialized: Message = {
+        role: "assistant",
+        content: diagram,
+      };
+      dispatch(addToChat(diagramSerialized));
+    } catch (error) {
+      console.error("Error :(");
+    }
   }
 
   return (
