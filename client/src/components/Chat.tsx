@@ -18,33 +18,33 @@ const Chat = () => {
       content: message,
     };
     dispatch(addToChat(serializedMessage));
-    try {
-      const response = await axios.get("http://localhost:8000/gptResponse", {
-        params: {
-          message: message,
-        },
-      });
-      const diagram: string = response.data.data[0].content[0].text.value;
-      console.log(console.log(diagram));
-      const diagramSerialized: Message = {
-        role: "assistant",
-        content: diagram,
-      };
-      dispatch(addToChat(diagramSerialized));
-    } catch (error) {
-      console.error("Error :(");
-    }
+    // try {
+    //   const response = await axios.get("http://localhost:8000/gptResponse", {
+    //     params: {
+    //       message: message,
+    //     },
+    //   });
+    //   const diagram: string = response.data.data[0].content[0].text.value;
+    //   console.log(console.log(diagram));
+    //   const diagramSerialized: Message = {
+    //     role: "assistant",
+    //     content: diagram,
+    //   };
+    //   dispatch(addToChat(diagramSerialized));
+    // } catch (error) {
+    //   console.error("Error :(");
+    // }
   }
 
   return (
     // Outer wrapper
     <Box className="w-[400px] p-4 h-full">
       <Box className="bg-slate-50 rounded-lg h-full flex flex-col p-2">
-        <Box>
+        <Box display="flex" className="flex-col overflow-auto">
           {conversation.map((message: Message, index: number) => {
             return (
               <Box className="flex mb-2 w-full" key={index}>
-                <div className="w-8 h-8 rounded-full bg-blue-200 mr-2" />
+                <div className="w-8 h-8 rounded-full bg-blue-200 mr-2 shadow-lg" />
                 <Box className="flex-1">
                   <Typography
                     component="p"
