@@ -16,24 +16,39 @@ const openaiApiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({
   apiKey: openaiApiKey,
 });
+let assistant: OpenAI.Beta.Assistant | null = null;
+let thread: OpenAI.Beta.Thread | null = null;
 
-async function checkThreadStatus(ids: ChatStatusInput) {
-  const { threadId, runId } = ids;
-  const runStatus = await openai.beta.threads.runs.retrieve(threadId, runId);
-  // console.log(runStatus);
-  if (runStatus.status === "completed") {
-    // console.log("COMPLETED");
-    const messages = await openai.beta.threads.messages.list(threadId);
-    // console.log(messages);
-    return messages;
-  }
-  // console.log("NOT COMPLETED");
-  return null;
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Basic OpenAI completion API
-async function openaiAssistantApi() {
-  const assistant = await openai.beta.assistants.create({
+app.get("/gptResponse", async (req: Request, res: Response) => {
+  const message = await openai.beta.threads.messages.create(thread!.id, {
+    role: "user",
+    content: req.query.message as string,
+  });
+  const run = await openai.beta.threads.runs.create(thread!.id, {
+    assistant_id: assistant!.id,
+  });
+  console.log(run);
+  while (true) {
+    const runStatus = await openai.beta.threads.runs.retrieve(
+      thread!.id,
+      run.id
+    );
+    if (runStatus.status == "completed") {
+      break;
+    }
+    await sleep(2000);
+  }
+  const messages = await openai.beta.threads.messages.list(thread!.id);
+  res.json(messages);
+});
+
+(async () => {
+  // Perform asynchronous initialization
+  assistant = await openai.beta.assistants.create({
     name: "System Design Model Assistant",
     instructions: `### System Design Model Chatbot: Overview
 
@@ -63,45 +78,10 @@ Assistant: {
     model: "gpt-4-1106-preview",
   });
 
-  const thread = await openai.beta.threads.create();
+  thread = await openai.beta.threads.create();
 
-  const message = await openai.beta.threads.messages.create(thread.id, {
-    role: "user",
-    content:
-      "I want an build an ecommerce store selling shoes. What components are needed?",
+  // Start the server once the initialization is complete
+  app.listen(port, () => {
+    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
   });
-
-  const run = await openai.beta.threads.runs.create(thread.id, {
-    assistant_id: assistant.id,
-  });
-
-  const runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
-
-  // console.log({ runStatus });
-
-  const messages = await openai.beta.threads.messages.list(thread.id);
-
-  console.log({
-    assistant_id: assistant.id,
-    thread_id: thread.id,
-    run_id: run.id,
-  });
-
-  return messages;
-}
-
-app.get("/testing", async (req: Request, res: Response) => {
-  const messages = await checkThreadStatus({
-    assistantId: "asst_shjqrknfXiZAGqiW6vSO3xvA",
-    threadId: "thread_7B3uDpQ6700Xo4kSbMv9Luz5",
-    runId: "run_trZJaPd3l6xSDd66KChYWO1O",
-  });
-
-  console.log(messages);
-
-  res.json(messages);
-});
-
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+})();

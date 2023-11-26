@@ -26,27 +26,35 @@ const openaiApiKey = process.env.OPENAI_API_KEY;
 const openai = new openai_1.default({
     apiKey: openaiApiKey,
 });
-function checkThreadStatus(ids) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const { threadId, runId } = ids;
-        const runStatus = yield openai.beta.threads.runs.retrieve(threadId, runId);
-        // console.log(runStatus);
-        if (runStatus.status === "completed") {
-            // console.log("COMPLETED");
-            const messages = yield openai.beta.threads.messages.list(threadId);
-            // console.log(messages);
-            return messages;
-        }
-        // console.log("NOT COMPLETED");
-        return null;
-    });
+let assistant = null;
+let thread = null;
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
-// Basic OpenAI completion API
-function openaiAssistantApi() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const assistant = yield openai.beta.assistants.create({
-            name: "System Design Model Assistant",
-            instructions: `### System Design Model Chatbot: Overview
+app.get("/gptResponse", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const message = yield openai.beta.threads.messages.create(thread.id, {
+        role: "user",
+        content: req.query.message,
+    });
+    const run = yield openai.beta.threads.runs.create(thread.id, {
+        assistant_id: assistant.id,
+    });
+    console.log(run);
+    while (true) {
+        const runStatus = yield openai.beta.threads.runs.retrieve(thread.id, run.id);
+        if (runStatus.status == "completed") {
+            break;
+        }
+        yield sleep(2000);
+    }
+    const messages = yield openai.beta.threads.messages.list(thread.id);
+    res.json(messages);
+}));
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    // Perform asynchronous initialization
+    assistant = yield openai.beta.assistants.create({
+        name: "System Design Model Assistant",
+        instructions: `### System Design Model Chatbot: Overview
 
 **Primary Function**: The System Design Model Chatbot is an AI-powered assistant designed to return system design solutions in JSON formats. The assistant will use its knowledge of system design, and return a custom JSON formatted design model, which can then be used to render in the web as a diagram. The assistant should JUST return the JSON object and nothing else. This JSON object is served to a frontend that directly takes it and renders it out.
 
@@ -70,37 +78,12 @@ Assistant: {
 }
 
 `,
-            tools: [{ type: "code_interpreter" }],
-            model: "gpt-4-1106-preview",
-        });
-        const thread = yield openai.beta.threads.create();
-        const message = yield openai.beta.threads.messages.create(thread.id, {
-            role: "user",
-            content: "I want an build an ecommerce store selling shoes. What components are needed?",
-        });
-        const run = yield openai.beta.threads.runs.create(thread.id, {
-            assistant_id: assistant.id,
-        });
-        const runStatus = yield openai.beta.threads.runs.retrieve(thread.id, run.id);
-        // console.log({ runStatus });
-        const messages = yield openai.beta.threads.messages.list(thread.id);
-        console.log({
-            assistant_id: assistant.id,
-            thread_id: thread.id,
-            run_id: run.id,
-        });
-        return messages;
+        tools: [{ type: "code_interpreter" }],
+        model: "gpt-4-1106-preview",
     });
-}
-app.get("/testing", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const messages = yield checkThreadStatus({
-        assistantId: "asst_shjqrknfXiZAGqiW6vSO3xvA",
-        threadId: "thread_7B3uDpQ6700Xo4kSbMv9Luz5",
-        runId: "run_trZJaPd3l6xSDd66KChYWO1O",
+    thread = yield openai.beta.threads.create();
+    // Start the server once the initialization is complete
+    app.listen(port, () => {
+        console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
     });
-    console.log(messages);
-    res.json(messages);
-}));
-app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+}))();
