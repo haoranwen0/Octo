@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { Box } from "@mui/material";
+import { useCallback } from "react"
+import { Box } from "@mui/material"
 import ReactFlow, {
   useNodesState,
   useEdgesState,
@@ -9,14 +9,14 @@ import ReactFlow, {
   Background,
   Controls,
   Connection,
-} from "reactflow";
-import CustomNode from "./react-flow-nodes/CustomNode";
+} from "reactflow"
+import CustomNode from "../react-flow-nodes/CustomeNode"
 
-import "reactflow/dist/style.css";
+import "reactflow/dist/style.css"
 
 const nodeTypes = {
   CustomNode: CustomNode,
-};
+}
 
 const initialNodes = [
   {
@@ -37,19 +37,19 @@ const initialNodes = [
       icon: "https://static-00.iconduck.com/assets.00/aws-s3-simple-storage-service-icon-423x512-sofvbo3x.png",
     },
   },
-];
-const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
+]
+const initialEdges = [{ id: "e1-2", source: "1", target: "2" }]
 
 const Diagram = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
 
   const onConnect: OnConnect = useCallback(
     (params: Connection) => {
-      setEdges((eds) => addEdge(params, eds));
+      setEdges((eds) => addEdge(params, eds))
     },
     [setEdges]
-  );
+  )
 
   return (
     <Box className="flex-1 h-full py-4 pr-4">
@@ -71,12 +71,15 @@ const Diagram = () => {
               pannable
             />
             <Controls />
-            <Background color="#aaa" gap={16} />
+            <Background
+              color="#aaa"
+              gap={16}
+            />
           </ReactFlow>
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default Diagram;
+export default Diagram

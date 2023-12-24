@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Message } from "../../interfaces/message";
+import { createSlice } from "@reduxjs/toolkit"
+import { Message } from "../../interfaces"
 
 interface rootState {
-  value: Message[];
+  value: Message[]
 }
 
 const initialState: rootState = {
   value: [],
-};
+}
 
 export const chatSlice = createSlice({
   name: "chat",
@@ -19,12 +19,12 @@ export const chatSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes.
       // Also, no return statement is required from these functions.
-      state.value.push(action.payload);
+      state.value.push(action.payload)
     },
   },
-});
+})
 
 // Action creators are generated for each case reducer function
-export const { addToChat } = chatSlice.actions;
+export const { addToChat } = chatSlice.actions
 
-export default chatSlice.reducer;
+export default chatSlice.reducer

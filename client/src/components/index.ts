@@ -1,4 +1,4 @@
-import Chat from "./Chat";
-import Diagram from "./Diagram";
+import Chat from "./Chat"
+import Diagram from "./Diagram"
 
-export { Chat, Diagram };
+export { Chat, Diagram }

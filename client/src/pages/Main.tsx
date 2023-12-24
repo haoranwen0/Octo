@@ -1,5 +1,4 @@
-import React from "react";
-import { Chat, Diagram } from "../components";
+import { Chat, Diagram } from "../components"
 
 const Main = () => {
   return (
@@ -7,7 +6,7 @@ const Main = () => {
       <Chat />
       <Diagram />
     </div>
-  );
-};
+  )
+}
 
-export default Main;
+export default Main

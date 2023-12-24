@@ -1,22 +1,26 @@
-import React from "react";
-import axios from "axios";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Main } from "./pages";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom"
 
-function App() {
-  // React.useEffect(() => {
-  //   axios.get("http://localhost:8000/testing").then((response) => {
-  //     console.log(response);
-  //   });
-  // }, []);
+// Layouts and pages imports
+import { Main } from "./pages"
 
-  return (
-    <Router>
-      <Routes>
-        <Route index element={<Main />} />
-      </Routes>
-    </Router>
-  );
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/">
+      <Route
+        index
+        element={<Main />}
+      />
+    </Route>
+  )
+)
+
+const App = () => {
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default App
