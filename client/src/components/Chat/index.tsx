@@ -1,9 +1,10 @@
 import { useState } from "react"
-import { Button, Box, TextField, Typography } from "@mui/material"
+import { Button, Box, TextField, Typography, Stack } from "@mui/material"
 import { IRootState } from "../../redux/store"
 import { useSelector, useDispatch } from "react-redux"
 import { addToChat } from "../../redux/slices/chat-slice"
 import { Message } from "../../interfaces"
+import { grey } from "@mui/material/colors"
 
 const Chat = () => {
   const dispatch = useDispatch()
@@ -21,20 +22,26 @@ const Chat = () => {
 
   return (
     // Outer wrapper
-    <Box className="w-[400px] p-4 h-full">
-      <Box className="bg-slate-50 rounded-lg h-full flex flex-col p-2">
-        <Box
-          display="flex"
-          className="flex-col overflow-auto"
-        >
+    <Box
+      padding="0.5rem"
+      height="100%"
+      width="300px"
+      borderRadius="0 0 0 0.5rem"
+      borderRight="1px solid"
+      borderColor={grey[200]}
+    >
+      <Stack justifyContent="space-between" height="100%">
+        <Stack overflow="auto">
           {conversation.map((message: Message, index: number) => {
             return (
-              <Box
-                className="flex mb-2 w-full"
+              <Stack
+                direction="row"
+                marginBottom="0.5rem"
+                width="100%"
                 key={index}
               >
                 <div className="w-8 h-8 rounded-full bg-blue-200 mr-2 shadow-sm" />
-                <Box className="flex-1">
+                <Box flex="1">
                   <Typography
                     component="p"
                     display="block"
@@ -43,14 +50,11 @@ const Chat = () => {
                     {message.content}
                   </Typography>
                 </Box>
-              </Box>
+              </Stack>
             )
           })}
-        </Box>
-        <Box
-          className="mt-auto flex flex-col gap-2"
-          component="form"
-        >
+        </Stack>
+        <Box className="mt-auto flex flex-col gap-2" component="form">
           <TextField
             id="filled-multiline-static"
             label="Describe your system"
@@ -61,15 +65,11 @@ const Chat = () => {
             className="w-full"
             onChange={(e) => setMessage(e.target.value)}
           />
-          <Button
-            variant="contained"
-            className="w-full"
-            onClick={onSubmit}
-          >
+          <Button variant="contained" className="w-full" onClick={onSubmit}>
             Submit
           </Button>
         </Box>
-      </Box>
+      </Stack>
     </Box>
   )
 }

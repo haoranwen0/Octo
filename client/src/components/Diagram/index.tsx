@@ -52,7 +52,7 @@ const Diagram = () => {
   )
 
   return (
-    <Box className="flex-1 h-full py-4 pr-4">
+    <Box height="100%" flex="1">
       <Box className="bg-slate-50 w-full h-full rounded-lg">
         <Box className="w-full h-full">
           <ReactFlow
@@ -71,10 +71,7 @@ const Diagram = () => {
               pannable
             />
             <Controls />
-            <Background
-              color="#aaa"
-              gap={16}
-            />
+            <Background color="#aaa" gap={16} />
           </ReactFlow>
         </Box>
       </Box>

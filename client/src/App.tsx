@@ -11,10 +11,7 @@ import { Main } from "./pages"
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
-      <Route
-        index
-        element={<Main />}
-      />
+      <Route index element={<Main />} />
     </Route>
   )
 )
