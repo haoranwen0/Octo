@@ -14,6 +14,7 @@ import { grey } from '@mui/material/colors'
 import { Node } from 'reactflow'
 
 import { Component, Shape, Font } from '../../../types'
+import { componentImageLink } from '../../../data/component-images'
 
 interface IToolbarComponent {
   numNodes: number
@@ -30,14 +31,13 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
     comp: Component | Shape,
     type: 'shape' | 'component'
   ): Node => {
-    console.log(`../../../images/${comp}.png`)
     return {
       id: (numNodes + 1).toString(),
       type: type === 'shape' ? 'default' : 'CustomNode',
       position: { x: 0, y: 0 },
       data: {
         label: comp,
-        icon: `../../../images/${comp}.png`,
+        icon: componentImageLink[comp as Component],
       },
     }
   }
@@ -57,6 +57,10 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
         break
       case 'shape':
         setShape(value as Shape)
+        setNodes((prevNoeds) => [
+          ...prevNoeds,
+          getComponent(value as Shape, 'shape'),
+        ])
         break
       case 'font':
         setFont(value as Font)
@@ -74,24 +78,6 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
         backgroundColor: grey[50],
       }}
     >
-      {/* Dropdown for node selection */}
-      {/* <select
-        // value={selectedIcon}
-        // onChange={(e) => handleIconSelection(e.target.value)}
-        style={{
-          padding: "8px",
-        }}
-      >
-        <option value="" disabled hidden>
-          Icons
-        </option>
-        <option value=""></option>
-        <option value="aws-db">AWS DB</option>
-        <option value="server">Server</option>
-        <option value="user">User</option>
-        <option value="loadbalancer">Load Balancer</option>
-      </select> */}
-
       <Box
         width='12rem'
         padding='0.5rem'
@@ -118,25 +104,6 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
         </FormControl>
       </Box>
 
-      {/* Dropdown for shape selection */}
-      {/* <select
-        // value={selectedShape}
-        // onChange={(e) => handleShapeSelection(e.target.value)}
-        style={{
-          backgroundColor: "black",
-          color: "white",
-          padding: "8px",
-        }}
-      >
-        <option value="" disabled hidden>
-          Shapes
-        </option>
-        <option value=""></option>
-        <option value="rectangle">Rectangle</option>
-        <option value="circle">Circle</option>
-        <option value="square">Square</option>
-      </select> */}
-
       <Box
         width='12rem'
         padding='0.5rem'
@@ -160,24 +127,6 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
         </FormControl>
       </Box>
 
-      {/* Dropdown for font type selection */}
-      {/* <select
-        // value={selectedFontType}
-        // onChange={(e) => handleFontTypeSelection(e.target.value)}
-        style={{
-          backgroundColor: "black",
-          color: "white",
-          padding: "8px",
-        }}
-      >
-        <option value="" disabled hidden>
-          Fonts
-        </option>
-        <option value=""></option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Arial">Arial</option>
-      </select> */}
-
       <Box
         width='12rem'
         padding='0.5rem'
@@ -199,16 +148,6 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
           </Select>
         </FormControl>
       </Box>
-
-      {/* Font displayer with +/- buttons */}
-      {/* <div style={{ display: "flex", alignItems: "center" }}> */}
-      {/* <button onClick={() => handleFontSizeChange(1)}>+</button> */}
-      {/* <button>+</button> */}
-      {/* <div style={{ margin: "0 8px" }}>Font Size: {fontSize}</div> */}
-      {/* <div style={{ margin: "0 8px" }}>Font Size: 1px</div> */}
-      {/* <button onClick={() => handleFontSizeChange(-1)}>-</button> */}
-      {/* <button>-</button> */}
-      {/* </div> */}
 
       <Box width='12rem' padding='0.5rem'>
         <Stack
