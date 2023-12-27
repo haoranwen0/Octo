@@ -23,16 +23,10 @@ const Chat = () => {
     // Outer wrapper
     <Box className="w-[400px] p-4 h-full">
       <Box className="bg-slate-50 rounded-lg h-full flex flex-col p-2">
-        <Box
-          display="flex"
-          className="flex-col overflow-auto"
-        >
+        <Box display="flex" className="flex-col overflow-auto">
           {conversation.map((message: Message, index: number) => {
             return (
-              <Box
-                className="flex mb-2 w-full"
-                key={index}
-              >
+              <Box className="flex mb-2 w-full" key={index}>
                 <div className="w-8 h-8 rounded-full bg-blue-200 mr-2 shadow-sm" />
                 <Box className="flex-1">
                   <Typography
@@ -47,10 +41,7 @@ const Chat = () => {
             )
           })}
         </Box>
-        <Box
-          className="mt-auto flex flex-col gap-2"
-          component="form"
-        >
+        <Box className="mt-auto flex flex-col gap-2" component="form">
           <TextField
             id="filled-multiline-static"
             label="Describe your system"
@@ -61,11 +52,7 @@ const Chat = () => {
             className="w-full"
             onChange={(e) => setMessage(e.target.value)}
           />
-          <Button
-            variant="contained"
-            className="w-full"
-            onClick={onSubmit}
-          >
+          <Button variant="contained" className="w-full" onClick={onSubmit}>
             Submit
           </Button>
         </Box>
