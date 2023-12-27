@@ -1,5 +1,5 @@
 import Chat from "./Chat"
-import Diagram from "./Diagram"
+import Canvas from "./Diagram/Canvas"
 import Navbar from "./Navbar"
 
-export { Chat, Diagram, Navbar }
+export { Chat, Canvas as Diagram, Navbar }
