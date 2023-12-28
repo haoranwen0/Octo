@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Box } from '@mui/material'
 import ReactFlow, { MiniMap, Background, Controls, MarkerType } from 'reactflow'
 
-import CustomNode from '../../react-flow-nodes/CustomeNode'
+import CustomNode from '../../react-flow-nodes/ComponentNode'
 import TextNode from '../../react-flow-nodes/TextNode'
 import Toolbar from '../Toolbar'
 
@@ -15,7 +15,7 @@ const nodeTypes = {
 }
 
 const defaultEdgeOptions = {
-  style: { strokeWidth: 3, stroke: 'black' },
+  style: { strokeWidth: 1, stroke: 'black' },
   type: 'floating',
   markerEnd: {
     type: MarkerType.ArrowClosed,
