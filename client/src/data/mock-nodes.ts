@@ -25,7 +25,15 @@ const initialNodes: Node[] = [
     type: 'TextNode',
     data: {
       label: '',
-      icon: '',
+    },
+  },
+  {
+    id: '4',
+    position: { x: 0, y: 10 },
+    type: 'ShapeNode',
+    data: {
+      label: '',
+      shape: 'square',
     },
   },
 ]

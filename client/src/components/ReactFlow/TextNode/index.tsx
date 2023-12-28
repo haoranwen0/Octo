@@ -1,8 +1,8 @@
 import React, { useState, memo } from 'react'
-import { GenericService } from '../../../interfaces'
+import { NodeData } from '../../../interfaces'
 
 interface CustomNodeProps {
-  data: GenericService
+  data: NodeData
 }
 
 function TextNode(props: CustomNodeProps) {

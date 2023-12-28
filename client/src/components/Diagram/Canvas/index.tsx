@@ -2,16 +2,18 @@ import { useState } from 'react'
 import { Box } from '@mui/material'
 import ReactFlow, { MiniMap, Background, Controls, MarkerType } from 'reactflow'
 
-import CustomNode from '../../react-flow-nodes/ComponentNode'
-import TextNode from '../../react-flow-nodes/TextNode'
+import CustomNode from '../../ReactFlow/ComponentNode'
+import TextNode from '../../ReactFlow/TextNode'
+import ShapeNode from '../../ReactFlow/ShapeNode'
 import Toolbar from '../Toolbar'
 
 import 'reactflow/dist/style.css'
 import useDiagramCanvas from '../../../hooks/useDiagramCanvas'
 
 const nodeTypes = {
-  CustomNode: CustomNode,
-  TextNode: TextNode,
+  CustomNode,
+  TextNode,
+  ShapeNode,
 }
 
 const defaultEdgeOptions = {

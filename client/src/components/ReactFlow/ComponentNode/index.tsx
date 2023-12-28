@@ -1,10 +1,10 @@
 import { memo } from 'react'
 import { Handle, Position } from 'reactflow'
-import { GenericService } from '../../../interfaces'
+import { NodeData } from '../../../interfaces'
 import { Container, Box, Typography } from '@mui/material'
 
 interface CustomNodeProps {
-  data: GenericService
+  data: NodeData
 }
 
 function CustomNode(props: CustomNodeProps) {
@@ -13,7 +13,7 @@ function CustomNode(props: CustomNodeProps) {
   return (
     <Container
       component='div'
-      className='px-4 py-2 shadow-md rounded-md bg-white border-2 border-stone-400'
+      className='px-4 py-2 rounded-md bg-white border-2 border-stone-400'
     >
       <Box component='div' className='flex items-center'>
         <Box component='div' className='rounded-full grid place-content-center'>

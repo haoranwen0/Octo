@@ -33,11 +33,12 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
   ): Node => {
     return {
       id: (numNodes + 1).toString(),
-      type: type === 'shape' ? 'default' : 'CustomNode',
+      type: type === 'shape' ? 'ShapeNode' : 'CustomNode',
       position: { x: 0, y: 0 },
       data: {
         label: comp,
         icon: componentImageLink[comp as Component],
+        ...(type === 'shape' && { shape: comp }),
       },
     }
   }
