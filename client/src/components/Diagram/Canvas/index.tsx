@@ -1,14 +1,14 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import ReactFlow, { MiniMap, Background, Controls, MarkerType } from 'reactflow'
 
+import useDiagramCanvas from '../../../hooks/useDiagramCanvas'
 import CustomNode from '../../ReactFlow/ComponentNode'
 import TextNode from '../../ReactFlow/TextNode'
 import ShapeNode from '../../ReactFlow/ShapeNode'
 import Toolbar from '../Toolbar'
 
 import 'reactflow/dist/style.css'
-import useDiagramCanvas from '../../../hooks/useDiagramCanvas'
 
 const nodeTypes = {
   CustomNode,
@@ -27,7 +27,11 @@ const defaultEdgeOptions = {
 
 const Canvas = () => {
   const canvas = useDiagramCanvas()
-  const [fontSize, setFontSize] = useState<number>(16)
+  // const nodes = useNodes()
+
+  // useEffect(() => {
+  //   console.log(nodes)
+  // }, [nodes])
 
   return (
     <Box height='100%' flex='1'>
@@ -44,7 +48,6 @@ const Canvas = () => {
             onConnect={canvas.onConnect}
             nodeTypes={nodeTypes}
             defaultEdgeOptions={defaultEdgeOptions}
-            style={{ fontSize: `${fontSize}px` }}
           >
             <MiniMap
               style={{

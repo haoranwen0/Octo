@@ -1,15 +1,12 @@
 import { FC, memo } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
-import { Handle, Position } from 'reactflow'
+import { Handle, Position, NodeResizer, NodeProps } from 'reactflow'
 import { NodeData } from '../../../interfaces'
 import { grey } from '@mui/material/colors'
 
-interface ShapeNodeProps {
-  data: NodeData
-}
-
-const ShapeNode: FC<ShapeNodeProps> = (props) => {
+const ShapeNode: FC<NodeProps<NodeData>> = (props) => {
   const data = props.data
+  const selected = props.selected
 
   return (
     <Box
@@ -20,6 +17,12 @@ const ShapeNode: FC<ShapeNodeProps> = (props) => {
       borderRadius={data.shape === 'circle' ? '100%' : '0.375rem'}
       sx={{ backgroundColor: 'white', cursor: 'move' }}
     >
+      <NodeResizer
+        color='#ff0071'
+        isVisible={selected}
+        minWidth={100}
+        minHeight={30}
+      />
       <Grid
         container
         width='100%'
@@ -29,7 +32,10 @@ const ShapeNode: FC<ShapeNodeProps> = (props) => {
       >
         <Typography fontSize='0.875rem'>{data.shape}</Typography>
       </Grid>
-      <Handle type='target' />
+      <Handle type='target' position={Position.Top} />
+      <Handle type='target' position={Position.Left} />
+      <Handle type='target' position={Position.Bottom} />
+      <Handle type='target' position={Position.Right} />
     </Box>
   )
 }
