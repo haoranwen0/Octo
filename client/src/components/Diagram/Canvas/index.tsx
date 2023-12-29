@@ -27,11 +27,6 @@ const defaultEdgeOptions = {
 
 const Canvas = () => {
   const canvas = useDiagramCanvas()
-  // const nodes = useNodes()
-
-  // useEffect(() => {
-  //   console.log(nodes)
-  // }, [nodes])
 
   return (
     <Box height='100%' flex='1'>

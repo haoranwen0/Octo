@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addToChat } from '../../redux/slices/chat-slice'
 import { Message } from '../../interfaces'
 import { grey, blue } from '@mui/material/colors'
+import axios from 'axios'
 
 const Chat = () => {
   const dispatch = useDispatch()
@@ -18,6 +19,22 @@ const Chat = () => {
       content: message,
     }
     dispatch(addToChat(serializedMessage))
+    try {
+      const response = await axios.get('http://localhost:8000/gptResponse', {
+        params: {
+          message: message,
+        },
+      })
+      const diagram: string = response.data
+      console.log('diagram: ', diagram)
+      const diagramSerialized: Message = {
+        role: 'assistant',
+        content: diagram,
+      }
+      dispatch(addToChat(diagramSerialized))
+    } catch (error) {
+      console.error('Error :(')
+    }
   }
 
   return (
