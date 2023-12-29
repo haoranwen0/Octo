@@ -1,23 +1,40 @@
-import { useState } from "react"
-import { Button, Box, TextField, Typography, Stack } from "@mui/material"
-import { IRootState } from "../../redux/store"
-import { useSelector, useDispatch } from "react-redux"
-import { addToChat } from "../../redux/slices/chat-slice"
-import { Message } from "../../interfaces"
-import { grey } from "@mui/material/colors"
+import { useState } from "react";
+import { Button, Box, TextField, Typography, Stack } from "@mui/material";
+import { IRootState } from "../../redux/store";
+import { useSelector, useDispatch } from "react-redux";
+import { addToChat } from "../../redux/slices/chat-slice";
+import { Message } from "../../interfaces";
+import { grey } from "@mui/material/colors";
+import axios from "axios";
 
 const Chat = () => {
-  const dispatch = useDispatch()
-  const conversation = useSelector((store: IRootState) => store.chat.value)
+  const dispatch = useDispatch();
+  const conversation = useSelector((store: IRootState) => store.chat.value);
 
-  const [message, setMessage] = useState<string>("")
+  const [message, setMessage] = useState<string>("");
 
   async function onSubmit() {
     const serializedMessage: Message = {
       role: "user",
       content: message,
+    };
+    dispatch(addToChat(serializedMessage));
+    try {
+      const response = await axios.get("http://localhost:8000/gptResponse", {
+        params: {
+          message: message,
+        },
+      });
+      const diagram: string = response.data;
+      console.log("diagram: ", diagram);
+      const diagramSerialized: Message = {
+        role: "assistant",
+        content: diagram,
+      };
+      dispatch(addToChat(diagramSerialized));
+    } catch (error) {
+      console.error("Error :(");
     }
-    dispatch(addToChat(serializedMessage))
   }
 
   return (
@@ -51,7 +68,7 @@ const Chat = () => {
                   </Typography>
                 </Box>
               </Stack>
-            )
+            );
           })}
         </Stack>
         <Box className="mt-auto flex flex-col gap-2" component="form">
@@ -71,7 +88,7 @@ const Chat = () => {
         </Box>
       </Stack>
     </Box>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;
