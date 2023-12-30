@@ -1,4 +1,4 @@
-import { FC, memo } from 'react'
+import { useEffect, FC, memo } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { Handle, Position, NodeResizer, NodeProps } from 'reactflow'
 import { NodeData } from '../../../interfaces'
@@ -10,19 +10,14 @@ const ShapeNode: FC<NodeProps<NodeData>> = (props) => {
 
   return (
     <Box
-      width={data.shape === 'rectangle' ? '12rem' : '8rem'}
-      height='8rem'
+      width='100%'
+      height='100%'
       border='2px solid'
       borderColor={grey[400]}
       borderRadius={data.shape === 'circle' ? '100%' : '0.375rem'}
       sx={{ backgroundColor: 'white', cursor: 'move' }}
     >
-      <NodeResizer
-        color='#ff0071'
-        isVisible={selected}
-        minWidth={100}
-        minHeight={30}
-      />
+      <NodeResizer color='#ff0071' isVisible={selected} />
       <Grid
         container
         width='100%'
@@ -32,10 +27,26 @@ const ShapeNode: FC<NodeProps<NodeData>> = (props) => {
       >
         <Typography fontSize='0.875rem'>{data.shape}</Typography>
       </Grid>
-      <Handle type='target' position={Position.Top} />
-      <Handle type='target' position={Position.Left} />
-      <Handle type='target' position={Position.Bottom} />
-      <Handle type='target' position={Position.Right} />
+      <Handle
+        id={`${props.id}-handle-top`}
+        type='source'
+        position={Position.Top}
+      />
+      <Handle
+        id={`${props.id}-handle-left`}
+        type='source'
+        position={Position.Left}
+      />
+      <Handle
+        id={`${props.id}-handle-bottom`}
+        type='source'
+        position={Position.Bottom}
+      />
+      <Handle
+        id={`${props.id}-handle-right`}
+        type='source'
+        position={Position.Right}
+      />
     </Box>
   )
 }

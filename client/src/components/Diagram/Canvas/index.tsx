@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
-import ReactFlow, { MiniMap, Background, Controls, MarkerType } from 'reactflow'
+import ReactFlow, {
+  MiniMap,
+  Background,
+  Controls,
+  MarkerType,
+  ReactFlowInstance,
+  ConnectionMode,
+} from 'reactflow'
 
 import useDiagramCanvas from '../../../hooks/useDiagramCanvas'
 import CustomNode from '../../ReactFlow/ComponentNode'
@@ -26,7 +33,9 @@ const defaultEdgeOptions = {
 }
 
 const Canvas = () => {
-  const canvas = useDiagramCanvas()
+  const [canvasRef, setCanvasRef] = useState<ReactFlowInstance | null>(null)
+
+  const canvas = useDiagramCanvas({ canvasRef })
 
   return (
     <Box height='100%' flex='1'>
@@ -43,6 +52,9 @@ const Canvas = () => {
             onConnect={canvas.onConnect}
             nodeTypes={nodeTypes}
             defaultEdgeOptions={defaultEdgeOptions}
+            onInit={(instance) => setCanvasRef(instance)}
+            connectionMode={ConnectionMode.Loose}
+            fitView
           >
             <MiniMap
               style={{

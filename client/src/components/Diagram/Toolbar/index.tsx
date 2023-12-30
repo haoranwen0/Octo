@@ -31,6 +31,16 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
     comp: Component | Shape,
     type: 'shape' | 'component'
   ): Node => {
+    console.log({
+      id: (numNodes + 1).toString(),
+      type: type === 'shape' ? 'ShapeNode' : 'CustomNode',
+      position: { x: 0, y: 0 },
+      data: {
+        label: comp,
+        icon: componentImageLink[comp as Component],
+        ...(type === 'shape' && { shape: comp }),
+      },
+    })
     return {
       id: (numNodes + 1).toString(),
       type: type === 'shape' ? 'ShapeNode' : 'CustomNode',
@@ -40,6 +50,10 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
         icon: componentImageLink[comp as Component],
         ...(type === 'shape' && { shape: comp }),
       },
+      ...(type === 'shape' && {
+        width: 8,
+        height: 8,
+      }),
     }
   }
 
