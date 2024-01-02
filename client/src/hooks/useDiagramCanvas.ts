@@ -43,12 +43,14 @@ export default function useDiagramCanvas(
 ): IUseDiagramCanvasResult {
   const [canvas, setCanvas] = useLocalStorage<string>('canvas', '')
   const [nodes, setNodes, onNodesChange] = useNodesState<NodeData>(
-    canvas !== ''
+    canvas !== undefined && canvas !== ''
       ? ((JSON.parse(canvas) as ReactFlowJsonObject).nodes as Nodes)
       : initialNodes
   )
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    canvas !== '' ? (JSON.parse(canvas).edges as Edge[]) : []
+    canvas !== undefined && canvas !== ''
+      ? (JSON.parse(canvas).edges as Edge[])
+      : []
   )
 
   const debouncedCanvas = useDebounce(

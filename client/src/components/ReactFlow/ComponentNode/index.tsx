@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import { Container, Box, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { Handle, Position, type NodeProps } from 'reactflow'
 
 import type { NodeData } from '../../../interfaces'
@@ -9,10 +9,7 @@ const CustomNode: React.FC<NodeProps<NodeData>> = (props) => {
   const data = props.data
 
   return (
-    <Container
-      component='div'
-      className='px-4 py-2 rounded-md bg-white border-2 border-stone-400'
-    >
+    <Box className='px-4 py-2 rounded-md bg-white border-2 border-stone-400'>
       <Box component='div' className='flex items-center'>
         <Box component='div' className='rounded-full grid place-content-center'>
           <Box
@@ -27,15 +24,15 @@ const CustomNode: React.FC<NodeProps<NodeData>> = (props) => {
         id={`${props.id}-handle-top`}
         type='source'
         position={Position.Top}
-        className='w-16 !bg-teal-500'
+        className='!bg-teal-500'
       />
       <Handle
         id={`${props.id}-handle-bottom`}
         type='source'
         position={Position.Bottom}
-        className='w-16 !bg-teal-500 h-4'
+        className='!bg-teal-500'
       />
-    </Container>
+    </Box>
   )
 }
 
