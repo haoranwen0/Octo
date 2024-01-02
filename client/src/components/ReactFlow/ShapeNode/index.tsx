@@ -1,10 +1,12 @@
-import { useEffect, FC, memo } from 'react'
-import { Box, Grid, Typography } from '@mui/material'
-import { Handle, Position, NodeResizer, NodeProps } from 'reactflow'
-import { NodeData } from '../../../interfaces'
-import { grey } from '@mui/material/colors'
+import React, { memo } from 'react'
 
-const ShapeNode: FC<NodeProps<NodeData>> = (props) => {
+import { Box, Grid, Typography } from '@mui/material'
+import { grey } from '@mui/material/colors'
+import { Handle, Position, NodeResizer, type NodeProps } from 'reactflow'
+
+import type { NodeData } from '../../../interfaces'
+
+const ShapeNode: React.FC<NodeProps<NodeData>> = (props) => {
   const data = props.data
   const selected = props.selected
 

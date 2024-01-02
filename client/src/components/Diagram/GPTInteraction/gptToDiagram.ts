@@ -1,62 +1,62 @@
-import { Node, Edge, MarkerType } from "reactflow";
+import { Node, Edge, MarkerType } from 'reactflow'
 
 interface Component {
-  name: string;
-  children: string[];
+  name: string
+  children: string[]
 }
 
 interface ParsedGraph {
-  nodes: Node[];
-  edges: Edge[];
+  nodes: Node[]
+  edges: Edge[]
 }
 
 function parseJSONToGraph(
   json: Component[],
   initialNodes: Node[],
   initialEdges: Edge[]
-): {nodes: Node[], edges: Edge[]} {
-  let nodes = initialNodes.slice();
-  let edges = initialEdges.slice();
+): { nodes: Node[]; edges: Edge[] } {
+  let nodes = initialNodes.slice()
+  let edges = initialEdges.slice()
 
   json.forEach((component, index) => {
-    const nodeId = `node-${index}`;
+    const nodeId = `node-${index}`
     const node: Node = {
       id: nodeId,
-      type: "CustomNode",
+      type: 'CustomNode',
       position: { x: index * 150, y: index * 100 },
-      data: { label: component.name, icon: "default-icon" },
-    };
+      data: { label: component.name, icon: 'default-icon' }
+    }
 
-    nodes.push(node);
-  });
+    nodes.push(node)
+  })
 
-  let i = 0;
+  let i = 0
   json.forEach((component, index) => {
-    const nodeId = `node-${index}`;
+    const nodeId = `node-${index}`
     component.children.forEach((child) => {
-      const childNode = nodes.find((n) => n.data.label === child);
+      const childNode = nodes.find((n) => n.data.label === child)
       if (childNode) {
-        const edgeId = `edge-${i}-${childNode.id}`;
-        i++;
+        const edgeId = `edge-${i}-${childNode.id}`
+        i++
         const edge: Edge = {
           id: edgeId,
-          markerEnd: { type: MarkerType.ArrowClosed, color: "black" },
+          markerEnd: { type: MarkerType.ArrowClosed, color: 'black' },
           source: nodeId,
           sourceHandle: null,
-          style: { strokeWidth: 3, stroke: "black" },
+          style: { strokeWidth: 3, stroke: 'black' },
           target: childNode.id,
           targetHandle: null,
-          type: "default",
-        };
-        edges.push(edge);
+          type: 'default'
+        }
+        edges.push(edge)
       }
-    });
-  });
+    })
+  })
 
-  return { nodes, edges };
+  return { nodes, edges }
 }
 
-export default parseJSONToGraph;
+export default parseJSONToGraph
 /*
 nodes are list of json: 
   {

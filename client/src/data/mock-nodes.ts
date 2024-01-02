@@ -7,8 +7,8 @@ const initialNodes: Node[] = [
     type: 'CustomNode',
     data: {
       label: 'AWS DynamoDB',
-      icon: 'https://static-00.iconduck.com/assets.00/aws-dynamodb-icon-454x512-53ebjxww.png',
-    },
+      icon: 'https://static-00.iconduck.com/assets.00/aws-dynamodb-icon-454x512-53ebjxww.png'
+    }
   },
   {
     id: '2',
@@ -16,16 +16,16 @@ const initialNodes: Node[] = [
     type: 'CustomNode',
     data: {
       label: 'AWS S3',
-      icon: 'https://static-00.iconduck.com/assets.00/aws-s3-simple-storage-service-icon-423x512-sofvbo3x.png',
-    },
+      icon: 'https://static-00.iconduck.com/assets.00/aws-s3-simple-storage-service-icon-423x512-sofvbo3x.png'
+    }
   },
   {
     id: '3',
     position: { x: 0, y: 10 },
     type: 'TextNode',
     data: {
-      label: '',
-    },
+      label: ''
+    }
   },
   {
     id: '4',
@@ -33,9 +33,9 @@ const initialNodes: Node[] = [
     type: 'ShapeNode',
     data: {
       label: '',
-      shape: 'square',
-    },
-  },
+      shape: 'square'
+    }
+  }
 ]
 
 export { initialNodes }

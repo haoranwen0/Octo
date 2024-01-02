@@ -1,14 +1,17 @@
-import React, { useState, memo } from 'react'
-import { NodeData } from '../../../interfaces'
+import React, { useState, memo, type ChangeEvent } from 'react'
+
+import type { NodeData } from '../../../interfaces'
 
 interface CustomNodeProps {
   data: NodeData
 }
 
-function TextNode(props: CustomNodeProps) {
-  const [label, setLabel] = useState(props.data.label || 'Write here')
+const TextNode: React.FC<CustomNodeProps> = (props) => {
+  const [label, setLabel] = useState(
+    props.data.label !== '' ? props.data.label : 'Write here'
+  )
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLabel(event.target.value)
   }
 
@@ -19,7 +22,7 @@ function TextNode(props: CustomNodeProps) {
         width: '200px',
         height: '100px',
         padding: '10px',
-        border: '1px solid #ddd',
+        border: '1px solid #ddd'
       }}
     >
       <input

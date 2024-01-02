@@ -1,30 +1,54 @@
-// Package imports
-import { useCallback, useEffect } from 'react'
-import { useDebounce, useLocalStorage } from 'usehooks-ts'
+import {
+  useCallback,
+  useEffect,
+  type Dispatch,
+  type SetStateAction
+} from 'react'
+
 import {
   useNodesState,
   useEdgesState,
-  Edge,
-  OnConnect,
-  Connection,
   addEdge,
-  ReactFlowInstance,
+  type ReactFlowInstance,
+  type OnConnect,
+  type Connection,
+  type Edge,
+  type NodeChange,
+  type EdgeChange,
+  type ReactFlowJsonObject
 } from 'reactflow'
+import { useDebounce, useLocalStorage } from 'usehooks-ts'
 
-// Project imports
 import { initialNodes } from '../data/mock-nodes'
+import type { NodeData, Nodes } from '../interfaces'
 
-type UseDiagramCanvas = {
+interface IUseDiagramCanvasParams {
   canvasRef: ReactFlowInstance | null
 }
 
-export default function useDiagramCanvas(params: UseDiagramCanvas) {
+interface IUseDiagramCanvasResult {
+  nodes: Nodes
+  setNodes: Dispatch<SetStateAction<Nodes>>
+  onNodesChange: (changes: NodeChange[]) => void
+
+  edges: Edge[]
+  setEdges: Dispatch<SetStateAction<Edge[]>>
+  onEdgesChange: (changes: EdgeChange[]) => void
+
+  onConnect: OnConnect
+}
+
+export default function useDiagramCanvas(
+  params: IUseDiagramCanvasParams
+): IUseDiagramCanvasResult {
   const [canvas, setCanvas] = useLocalStorage<string>('canvas', '')
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node[]>(
-    canvas ? JSON.parse(canvas).nodes : initialNodes
+  const [nodes, setNodes, onNodesChange] = useNodesState<NodeData>(
+    canvas !== ''
+      ? ((JSON.parse(canvas) as ReactFlowJsonObject).nodes as Nodes)
+      : initialNodes
   )
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge[]>(
-    canvas ? JSON.parse(canvas).edges : []
+  const [edges, setEdges, onEdgesChange] = useEdgesState(
+    canvas !== '' ? (JSON.parse(canvas).edges as Edge[]) : []
   )
 
   const debouncedCanvas = useDebounce(
@@ -54,6 +78,6 @@ export default function useDiagramCanvas(params: UseDiagramCanvas) {
     setEdges,
     onEdgesChange,
 
-    onConnect,
+    onConnect
   }
 }

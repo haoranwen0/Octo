@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+
 import { Box } from '@mui/material'
 import ReactFlow, {
   MiniMap,
   Background,
   Controls,
   MarkerType,
-  ReactFlowInstance,
-  ConnectionMode
+  ConnectionMode,
+  type ReactFlowInstance
 } from 'reactflow'
 
 import useDiagramCanvas from '../../../hooks/useDiagramCanvas'
 import CustomNode from '../../ReactFlow/ComponentNode'
-import TextNode from '../../ReactFlow/TextNode'
 import ShapeNode from '../../ReactFlow/ShapeNode'
+import TextNode from '../../ReactFlow/TextNode'
 import Toolbar from '../Toolbar'
 
 import 'reactflow/dist/style.css'
@@ -32,7 +33,7 @@ const defaultEdgeOptions = {
   }
 }
 
-const Canvas = () => {
+const Canvas: React.FC = () => {
   const [canvasRef, setCanvasRef] = useState<ReactFlowInstance | null>(null)
 
   const canvas = useDiagramCanvas({ canvasRef })
@@ -52,7 +53,9 @@ const Canvas = () => {
             onConnect={canvas.onConnect}
             nodeTypes={nodeTypes}
             defaultEdgeOptions={defaultEdgeOptions}
-            onInit={(instance) => setCanvasRef(instance)}
+            onInit={(instance) => {
+              setCanvasRef(instance)
+            }}
             connectionMode={ConnectionMode.Loose}
             fitView
           >

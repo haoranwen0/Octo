@@ -1,17 +1,13 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+
 import { Button, Box, TextField, Typography, Stack } from '@mui/material'
-import { IRootState } from '../../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { addToChat } from '../../redux/slices/chat-slice'
-import { Message } from '../../interfaces'
 import { grey, blue } from '@mui/material/colors'
 import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
 
-const Chat = () => {
-  const dispatch = useDispatch()
-  const conversation = useSelector((store: IRootState) => store.chat.value)
-
-  const [message, setMessage] = useState<string>('')
+import type { Message } from '../../interfaces'
+import { addToChat } from '../../redux/slices/chat-slice'
+import type { IRootState } from '../../redux/store'
 
 const Chat: React.FC = () => {
   const dispatch = useDispatch()
@@ -22,7 +18,7 @@ const Chat: React.FC = () => {
   async function onSubmit(): Promise<void> {
     const serializedMessage: Message = {
       role: 'user',
-      content: message,
+      content: message
     }
     dispatch(addToChat(serializedMessage))
     try {
@@ -126,14 +122,16 @@ const Chat: React.FC = () => {
             value={message}
             variant='filled'
             className='w-full'
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => {
+              setMessage(e.target.value)
+            }}
             sx={{
               '& .MuiFilledInput-root': {
-                backgroundColor: grey[200],
+                backgroundColor: grey[200]
               },
               '.MuiInputBase-input': {
-                fontSize: '0.875rem',
-              },
+                fontSize: '0.875rem'
+              }
             }}
           />
           <Button
@@ -141,7 +139,11 @@ const Chat: React.FC = () => {
             variant='contained'
             sx={{ textTransform: 'none' }}
             size='small'
-            onClick={onSubmit}
+            onClick={() => {
+              void (async () => {
+                await onSubmit()
+              })()
+            }}
           >
             Submit
           </Button>

@@ -1,9 +1,11 @@
-import { ReactElement, memo } from 'react'
-import { Handle, NodeProps, Position } from 'reactflow'
-import { NodeData } from '../../../interfaces'
-import { Container, Box, Typography } from '@mui/material'
+import React, { memo } from 'react'
 
-function CustomNode(props: NodeProps<NodeData>): ReactElement {
+import { Container, Box, Typography } from '@mui/material'
+import { Handle, Position, type NodeProps } from 'reactflow'
+
+import type { NodeData } from '../../../interfaces'
+
+const CustomNode: React.FC<NodeProps<NodeData>> = (props) => {
   const data = props.data
 
   return (

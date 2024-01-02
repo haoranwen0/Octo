@@ -1,27 +1,28 @@
-import { useState, FC } from 'react'
+import React, { useState } from 'react'
+
 import {
   Stack,
   Select,
-  SelectChangeEvent,
   FormControl,
   MenuItem,
   InputLabel,
   Box,
   Button,
-  Typography
+  Typography,
+  type SelectChangeEvent
 } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import { Node, Edge } from 'reactflow'
+import { type Node } from 'reactflow'
 
-import { Component, Shape, Font } from '../../../types'
 import { componentImageLink } from '../../../data/component-images'
+import type { Component, Shape, Font } from '../../../types'
 
 interface IToolbarComponent {
   numNodes: number
   setNodes: (payload: Node[] | ((nodes: Node[]) => Node[])) => void
 }
 
-const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
+const Toolbar: React.FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
   const [component, setComponent] = useState<Component | ''>('')
   const [shape, setShape] = useState<Shape | ''>('')
   const [font, setFont] = useState<Font | ''>('')
@@ -174,9 +175,9 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
           borderRadius='0.25rem'
         >
           <Button
-            onClick={() =>
+            onClick={() => {
               fontSize > 0 && setFontSize((prevState) => prevState - 1)
-            }
+            }}
           >
             -
           </Button>
@@ -184,9 +185,9 @@ const Toolbar: FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
             {fontSize}pt
           </Typography>
           <Button
-            onClick={() =>
+            onClick={() => {
               fontSize < 128 && setFontSize((prevState) => prevState + 1)
-            }
+            }}
           >
             +
           </Button>

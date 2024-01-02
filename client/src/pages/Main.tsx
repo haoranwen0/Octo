@@ -1,8 +1,11 @@
+import React from 'react'
+
 import { Box, Stack } from '@mui/material'
-import { Chat, Diagram, Navbar } from '../components'
 import { grey } from '@mui/material/colors'
 
-const Main = () => {
+import { Chat, Diagram, Navbar } from '../components'
+
+const Main: React.FC = () => {
   return (
     <Box padding='1rem' height='100vh' sx={{ backgroundColor: grey[800] }}>
       <Stack
