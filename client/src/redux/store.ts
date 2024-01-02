@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import thunk from 'redux-thunk'
 
+import canvasReducer from './slices/canvas-slice'
 import chatReducer from './slices/chat-slice'
 
 const persistConfig = {
@@ -11,7 +12,8 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-  chat: chatReducer
+  chat: chatReducer,
+  canvas: canvasReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

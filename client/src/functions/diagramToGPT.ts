@@ -1,4 +1,4 @@
-import { Node, Edge } from 'reactflow'
+import type { Node, Edge } from 'reactflow'
 
 interface Component {
   name: string
@@ -6,7 +6,7 @@ interface Component {
 }
 
 function parseGraphToJSON(nodes: Node[], edges: Edge[]): Component[] {
-  let json: Component[] = []
+  const json: Component[] = []
   nodes.forEach((node, index) => {
     const filteredEdges: Edge[] = edges.filter(
       (edge) => edge.source === node.id

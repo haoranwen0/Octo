@@ -1,22 +1,38 @@
-import { Node, Edge, MarkerType } from 'reactflow'
+import { type Node, type Edge, MarkerType } from 'reactflow'
 
-interface Component {
-  name: string
-  children: string[]
-}
+import type { Component, Canvas } from '../interfaces'
 
-interface ParsedGraph {
-  nodes: Node[]
-  edges: Edge[]
-}
+/**
+nodes are list of json:
+  {
+    id: str,
+    height: int,
+    type: str,
+    position: {x: int, y: int},
+    width: int,
+    data: {label: str, icon: str}
+  }
+
+  edges are list of json:
+  {
+    id: str,
+    markerEnd: {type: str, color: str},
+    source: str,
+    sourceHandle: null,
+    style: {strokeWidth: int, stroke: str},
+    target: str,
+    targetHandle: null,
+    type: str
+  }
+*/
 
 function parseJSONToGraph(
   json: Component[],
   initialNodes: Node[],
   initialEdges: Edge[]
-): { nodes: Node[]; edges: Edge[] } {
-  let nodes = initialNodes.slice()
-  let edges = initialEdges.slice()
+): Canvas {
+  const nodes = initialNodes.slice()
+  const edges = initialEdges.slice()
 
   json.forEach((component, index) => {
     const nodeId = `node-${index}`
@@ -35,7 +51,7 @@ function parseJSONToGraph(
     const nodeId = `node-${index}`
     component.children.forEach((child) => {
       const childNode = nodes.find((n) => n.data.label === child)
-      if (childNode) {
+      if (childNode !== undefined) {
         const edgeId = `edge-${i}-${childNode.id}`
         i++
         const edge: Edge = {
@@ -57,26 +73,3 @@ function parseJSONToGraph(
 }
 
 export default parseJSONToGraph
-/*
-nodes are list of json: 
-  {
-    id: str, 
-    height: int, 
-    type: str, 
-    position: {x: int, y: int}, 
-    width: int, 
-    data: {label: str, icon: str} 
-  }
-
-  edges are list of json: 
-  {
-    id: str, 
-    markerEnd: {type: str, color: str}, 
-    source: str, 
-    sourceHandle: null, 
-    style: {strokeWidth: int, stroke: str}, 
-    target: str, 
-    targetHandle: null, 
-    type: str 
-  }
-*/

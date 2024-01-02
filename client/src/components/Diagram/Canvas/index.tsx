@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { Box } from '@mui/material'
+import { grey } from '@mui/material/colors'
 import ReactFlow, {
   MiniMap,
   Background,
@@ -25,11 +26,11 @@ const nodeTypes = {
 }
 
 const defaultEdgeOptions = {
-  style: { strokeWidth: 1, stroke: 'black' },
-  type: 'floating',
+  style: { strokeWidth: 1, stroke: grey[400] },
+  type: 'default',
   markerEnd: {
     type: MarkerType.ArrowClosed,
-    color: 'black'
+    color: grey[400]
   }
 }
 

@@ -14,7 +14,7 @@ const Main: React.FC = () => {
         borderRadius='0.5rem'
       >
         <Navbar />
-        <Stack direction='row' flex='1'>
+        <Stack direction='row' flex='1' height='100%'>
           <Chat />
           <Diagram />
         </Stack>

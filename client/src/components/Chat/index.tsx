@@ -5,13 +5,16 @@ import { grey, blue } from '@mui/material/colors'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 
-import type { Message } from '../../interfaces'
+import { isValidJSON } from '../../functions'
+import type { Component, Message, GPTJSON } from '../../interfaces'
+import { initializeCanvas } from '../../redux/slices/canvas-slice'
 import { addToChat } from '../../redux/slices/chat-slice'
 import type { IRootState } from '../../redux/store'
 
 const Chat: React.FC = () => {
   const dispatch = useDispatch()
   const conversation = useSelector((store: IRootState) => store.chat.value)
+  const canvas = useSelector((store: IRootState) => store.canvas.value)
 
   const [message, setMessage] = useState<string>('')
 
@@ -28,6 +31,20 @@ const Chat: React.FC = () => {
         }
       })
       const diagram: string = response.data
+
+      if (isValidJSON(diagram)) {
+        if (canvas === null) {
+          dispatch(
+            initializeCanvas(
+              (JSON.parse(diagram) as GPTJSON).components as Component[]
+            )
+          )
+        } else {
+          console.log('Canvas already exists!')
+          // TODO
+        }
+      }
+
       console.log('diagram: ', diagram)
       const diagramSerialized: Message = {
         role: 'assistant',
@@ -41,7 +58,6 @@ const Chat: React.FC = () => {
 
   return (
     <Box
-      padding='0.5rem'
       height='100%'
       width='300px'
       borderRadius='0 0 0 0.5rem'
@@ -49,7 +65,7 @@ const Chat: React.FC = () => {
       borderColor={grey[200]}
     >
       <Stack justifyContent='space-between' height='100%'>
-        <Stack overflow='auto'>
+        <Stack overflow='auto' padding='0.5rem'>
           {conversation.map((message: Message, index: number) => {
             return (
               <Stack
@@ -113,7 +129,7 @@ const Chat: React.FC = () => {
             )
           })}
         </Stack>
-        <Stack marginTop='auto' spacing={1} component='form'>
+        <Stack marginTop='auto' spacing={1} component='form' padding='0.5rem'>
           <TextField
             id='filled-multiline-static'
             label='Describe your system'

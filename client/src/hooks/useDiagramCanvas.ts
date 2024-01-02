@@ -5,6 +5,7 @@ import {
   type SetStateAction
 } from 'react'
 
+import { useSelector } from 'react-redux'
 import {
   useNodesState,
   useEdgesState,
@@ -21,6 +22,7 @@ import { useDebounce, useLocalStorage } from 'usehooks-ts'
 
 import { initialNodes } from '../data/mock-nodes'
 import type { NodeData, Nodes } from '../interfaces'
+import type { IRootState } from '../redux/store'
 
 interface IUseDiagramCanvasParams {
   canvasRef: ReactFlowInstance | null
@@ -41,6 +43,8 @@ interface IUseDiagramCanvasResult {
 export default function useDiagramCanvas(
   params: IUseDiagramCanvasParams
 ): IUseDiagramCanvasResult {
+  const canvas2 = useSelector((store: IRootState) => store.canvas.value)
+
   const [canvas, setCanvas] = useLocalStorage<string>('canvas', '')
   const [nodes, setNodes, onNodesChange] = useNodesState<NodeData>(
     canvas !== undefined && canvas !== ''
@@ -57,6 +61,13 @@ export default function useDiagramCanvas(
     JSON.stringify(params.canvasRef?.toObject()),
     1_000
   )
+
+  useEffect(() => {
+    if (canvas2 !== null) {
+      setNodes(canvas2.nodes)
+      setEdges(canvas2.edges)
+    }
+  }, [canvas2])
 
   useEffect(() => {
     console.log('saving...')
