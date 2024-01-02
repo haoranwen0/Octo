@@ -1,19 +1,21 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+
 import { Button, Box, TextField, Typography, Stack } from '@mui/material'
-import { IRootState } from '../../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { addToChat } from '../../redux/slices/chat-slice'
-import { Message } from '../../interfaces'
 import { grey } from '@mui/material/colors'
 import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
 
-const Chat = () => {
+import type { Message } from '../../interfaces'
+import { addToChat } from '../../redux/slices/chat-slice'
+import type { IRootState } from '../../redux/store'
+
+const Chat: React.FC = () => {
   const dispatch = useDispatch()
   const conversation = useSelector((store: IRootState) => store.chat.value)
 
   const [message, setMessage] = useState<string>('')
 
-  async function onSubmit() {
+  async function onSubmit(): Promise<void> {
     const serializedMessage: Message = {
       role: 'user',
       content: message
@@ -22,7 +24,7 @@ const Chat = () => {
     try {
       const response = await axios.get('http://localhost:8000/gptResponse', {
         params: {
-          message: message
+          message
         }
       })
       const diagram: string = response.data
@@ -80,9 +82,19 @@ const Chat = () => {
             value={message}
             variant='filled'
             className='w-full'
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => {
+              setMessage(e.target.value)
+            }}
           />
-          <Button variant='contained' className='w-full' onClick={onSubmit}>
+          <Button
+            variant='contained'
+            className='w-full'
+            onClick={() => {
+              void (async () => {
+                await onSubmit()
+              })()
+            }}
+          >
             Submit
           </Button>
         </Box>
