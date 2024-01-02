@@ -1,6 +1,9 @@
-export interface GenericService {
+import { Shape } from '../types'
+
+export interface NodeData {
   label: string
-  icon: string
+  icon?: string
+  shape?: Shape
 }
 
 export interface Message {

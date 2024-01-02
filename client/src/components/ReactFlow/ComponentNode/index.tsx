@@ -1,19 +1,15 @@
-import { memo } from 'react'
-import { Handle, Position } from 'reactflow'
-import { GenericService } from '../../../interfaces'
+import { ReactElement, memo } from 'react'
+import { Handle, NodeProps, Position } from 'reactflow'
+import { NodeData } from '../../../interfaces'
 import { Container, Box, Typography } from '@mui/material'
 
-interface CustomNodeProps {
-  data: GenericService
-}
-
-function CustomNode(props: CustomNodeProps) {
+function CustomNode(props: NodeProps<NodeData>): ReactElement {
   const data = props.data
 
   return (
     <Container
       component='div'
-      className='px-4 py-2 shadow-md rounded-md bg-white border-2 border-stone-400'
+      className='px-4 py-2 rounded-md bg-white border-2 border-stone-400'
     >
       <Box component='div' className='flex items-center'>
         <Box component='div' className='rounded-full grid place-content-center'>
@@ -26,11 +22,13 @@ function CustomNode(props: CustomNodeProps) {
         <Typography variant='body1'>{data.label}</Typography>
       </Box>
       <Handle
-        type='target'
+        id={`${props.id}-handle-top`}
+        type='source'
         position={Position.Top}
         className='w-16 !bg-teal-500'
       />
       <Handle
+        id={`${props.id}-handle-bottom`}
         type='source'
         position={Position.Bottom}
         className='w-16 !bg-teal-500 h-4'

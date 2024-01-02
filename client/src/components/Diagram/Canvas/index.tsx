@@ -1,31 +1,41 @@
-import React, { useState } from 'react'
-
+import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
-import ReactFlow, { MiniMap, Background, Controls, MarkerType } from 'reactflow'
+import ReactFlow, {
+  MiniMap,
+  Background,
+  Controls,
+  MarkerType,
+  ReactFlowInstance,
+  ConnectionMode
+} from 'reactflow'
 
 import useDiagramCanvas from '../../../hooks/useDiagramCanvas'
-import CustomNode from '../../react-flow-nodes/CustomeNode'
-import TextNode from '../../react-flow-nodes/TextNode'
+import CustomNode from '../../ReactFlow/ComponentNode'
+import TextNode from '../../ReactFlow/TextNode'
+import ShapeNode from '../../ReactFlow/ShapeNode'
 import Toolbar from '../Toolbar'
+
 import 'reactflow/dist/style.css'
 
 const nodeTypes = {
-  CustomNode: CustomNode,
-  TextNode: TextNode
+  CustomNode,
+  TextNode,
+  ShapeNode
 }
 
 const defaultEdgeOptions = {
-  style: { strokeWidth: 3, stroke: 'black' },
-  type: 'default',
+  style: { strokeWidth: 1, stroke: 'black' },
+  type: 'floating',
   markerEnd: {
     type: MarkerType.ArrowClosed,
     color: 'black'
   }
 }
 
-const Canvas: React.FC = () => {
-  const canvas = useDiagramCanvas()
-  const [fontSize, setFontSize] = useState<number>(16)
+const Canvas = () => {
+  const [canvasRef, setCanvasRef] = useState<ReactFlowInstance | null>(null)
+
+  const canvas = useDiagramCanvas({ canvasRef })
 
   return (
     <Box height='100%' flex='1'>
@@ -42,7 +52,9 @@ const Canvas: React.FC = () => {
             onConnect={canvas.onConnect}
             nodeTypes={nodeTypes}
             defaultEdgeOptions={defaultEdgeOptions}
-            style={{ fontSize: `${fontSize}px` }}
+            onInit={(instance) => setCanvasRef(instance)}
+            connectionMode={ConnectionMode.Loose}
+            fitView
           >
             <MiniMap
               style={{
