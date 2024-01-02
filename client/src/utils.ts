@@ -1,4 +1,10 @@
-function stringToColor(string: string) {
+type StringToColorT = (string: string) => string
+type StringAvatarT = (name: string) => {
+  sx: { bgcolor: string }
+  children: string
+}
+
+const stringToColor: StringToColorT = (string) => {
   let hash = 0
   let i
 
@@ -7,7 +13,7 @@ function stringToColor(string: string) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash)
   }
 
-  let color = "#"
+  let color = '#'
 
   for (i = 0; i < 3; i += 1) {
     const value = (hash >> (i * 8)) & 0xff
@@ -18,12 +24,12 @@ function stringToColor(string: string) {
   return color
 }
 
-function stringAvatar(name: string) {
+const stringAvatar: StringAvatarT = (name) => {
   return {
     sx: {
-      bgcolor: stringToColor(name),
+      bgcolor: stringToColor(name)
     },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
   }
 }
 
