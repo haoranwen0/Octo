@@ -14,6 +14,7 @@ import Toolbar from "../Toolbar";
 import "reactflow/dist/style.css";
 import useDiagramCanvas from "../../../hooks/useDiagramCanvas";
 
+
 const nodeTypes = {
   CustomNode: CustomNode,
   TextNode: TextNode,
@@ -21,7 +22,7 @@ const nodeTypes = {
 
 const defaultEdgeOptions = {
   style: { strokeWidth: 3, stroke: "black" },
-  type: "floating",
+  type: "default",
   markerEnd: {
     type: MarkerType.ArrowClosed,
     color: "black",
@@ -31,9 +32,6 @@ const defaultEdgeOptions = {
 const Canvas = () => {
   const canvas = useDiagramCanvas();
   const [fontSize, setFontSize] = useState<number>(16);
-
-  console.log(canvas.nodes);
-  console.log(canvas.edges);
 
   return (
     <Box height="100%" flex="1">
