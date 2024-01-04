@@ -25,19 +25,22 @@ const Chat: React.FC = () => {
     }
     dispatch(addToChat(serializedMessage))
     try {
-      const response = await axios.get('http://localhost:8000/gptResponse', {
+      const startTime = performance.now()
+      const response = await axios.get('http://localhost:8000/diagram', {
         params: {
           message
         }
       })
-      const diagram: string = response.data
+      console.log('Time Elapsed:', performance.now() - startTime)
+
+      console.log(response)
+
+      const diagram: string = response.data.result
 
       if (isValidJSON(diagram)) {
         if (canvas === null) {
           dispatch(
-            initializeCanvas(
-              (JSON.parse(diagram) as GPTJSON).components as Component[]
-            )
+            initializeCanvas(JSON.parse(diagram).components as Component[])
           )
         } else {
           console.log('Canvas already exists!')

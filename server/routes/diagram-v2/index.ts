@@ -18,7 +18,7 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-router.get('/gptResponse', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   console.log(req.query.message)
   if (thread === null) {
     thread = await openai.beta.threads.create()

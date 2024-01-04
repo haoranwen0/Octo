@@ -1,19 +1,28 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
-import { routes } from "./routes";
+import express, { Express, Request, Response } from 'express'
+import diagramRoutes from './routes/diagram'
+import dotenv from 'dotenv'
+import cors from 'cors'
 
-var cors = require("cors");
+const app: Express = express()
 
-dotenv.config();
+dotenv.config()
 
-const app: Express = express();
 // Cor middleware allowing all origin access
-app.use(cors());
-app.use("/", routes)
+app.use(cors())
+app.use(express.json())
+
+// Initialize routes
+app.use('/diagram', diagramRoutes)
+
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).send('Connected!')
+})
 
 // Get env variables
-const port = process.env.PORT;
+const port = process.env.PORT
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
+})
+
+export default app
