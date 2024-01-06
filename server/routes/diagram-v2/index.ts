@@ -129,3 +129,6 @@ router.get('/', async (req: Request, res: Response) => {
 })
 
 export default router
+
+// queued --> in_progress --> requires_action --> completed --> queued (waiting for the next msg)
+// queued --> in_progress --> requires_action --> completed --> in_progress (waiting for the next msg)

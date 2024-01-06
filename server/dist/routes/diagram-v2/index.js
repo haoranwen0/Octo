@@ -96,3 +96,5 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Final Run', tempRun);
 }));
 exports.default = router;
+// queued --> in_progress --> requires_action --> completed --> queued (waiting for the next msg)
+// queued --> in_progress --> requires_action --> completed --> in_progress (waiting for the next msg)
