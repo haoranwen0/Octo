@@ -10,7 +10,11 @@
   },
   "plugins": ["react", "import"],
   "rules": {
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/quotes": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
     "multiline-ternary": "off",
     "@typescript-eslint/space-before-function-paren": "off",
     "import/order": [
