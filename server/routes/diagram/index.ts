@@ -42,9 +42,9 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const result = await getGPTDiagramJSONCompletion(message)
 
-    res.status(200).json({ result })
+    res.status(200).json(result)
   } catch (error) {
-    res.status(500).json({ result: JSON.stringify(error) })
+    res.status(500).json(error)
   }
 })
 

@@ -41,10 +41,10 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     };
     try {
         const result = yield getGPTDiagramJSONCompletion(message);
-        res.status(200).json({ result });
+        res.status(200).json(result);
     }
     catch (error) {
-        res.status(500).json({ result: JSON.stringify(error) });
+        res.status(500).json(error);
     }
 }));
 exports.default = router;

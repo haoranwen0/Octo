@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express'
 import diagramRoutes from './routes/diagram'
+import diagramRoutesV2 from './routes/diagram-v2'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
@@ -13,6 +14,7 @@ app.use(express.json())
 
 // Initialize routes
 app.use('/diagram', diagramRoutes)
+app.use('/diagram-v2', diagramRoutesV2)
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send('Connected!')

@@ -22,36 +22,77 @@ const openai = new openai_1.default({
     apiKey: openaiApiKey
 });
 let thread = null;
-let assistant_id = 'asst_VVpKXu5gpCnYd2v4y2jQ2sxm';
+let assistant_id = 'asst_VVpKXu5gpCnYd2v4y2jQ2sxm'; // Evan's
+// let assistant_id: string = 'asst_erCT2flkmXQgmE6Ygqej4u5x' // Hao's (w/o Function Calling)
+// let assistant_id: string = 'asst_n4XgjvXaoV6E6K0qM0ab2htj' // Hao's (w/o Function Calling)
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+function waitRun(threadID, threadRunID, runStatus) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let run = yield openai.beta.threads.runs.retrieve(threadID, threadRunID);
+        let i = 0;
+        console.log('Initial Run in Wait', runStatus, run);
+        while (run.status === runStatus) {
+            console.log('------Run Status------\n', run.status);
+            i += 1;
+            yield sleep(2000);
+            // Get the run status
+            run = yield openai.beta.threads.runs.retrieve(threadID, threadRunID);
+        }
+        return run;
+    });
+}
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    console.log(req.query.message);
+    var _a;
+    // Get prompt from request
+    const prompt = req.query.message;
+    // If no thread yet, create thread.
     if (thread === null) {
         thread = yield openai.beta.threads.create();
     }
-    const message = yield openai.beta.threads.messages.create(thread.id, {
+    else {
+        console.log(thread.id);
+    }
+    // Add message to thread
+    yield openai.beta.threads.messages.create(thread.id, {
         role: 'user',
-        content: req.query.message
+        content: prompt + 'Use the design_system function.'
     });
-    const run = yield openai.beta.threads.runs.create(thread.id, {
-        assistant_id: assistant_id
+    // Create the run
+    const threadRun = yield openai.beta.threads.runs.create(thread.id, {
+        assistant_id
     });
-    let runStatus = null;
-    let i = 0;
-    while (true) {
-        runStatus = yield openai.beta.threads.runs.retrieve(thread.id, run.id);
-        if (runStatus.status == 'requires_action') {
+    const run = yield waitRun(thread.id, threadRun.id, 'in_progress');
+    switch (run.status) {
+        case 'requires_action': {
+            console.log('Required Action:', JSON.stringify(run.required_action));
+            yield openai.beta.threads.runs.submitToolOutputs(thread.id, threadRun.id, {
+                tool_outputs: [
+                    {
+                        tool_call_id: run.required_action.submit_tool_outputs.tool_calls[0].id,
+                        output: '{success: "true"}'
+                    }
+                ]
+            });
+            const postRequiredActionRun = yield waitRun(thread.id, threadRun.id, 'completed');
+            console.log(postRequiredActionRun.status);
+            res
+                .status(200)
+                .json((_a = run.required_action) === null || _a === void 0 ? void 0 : _a.submit_tool_outputs.tool_calls[0].function.arguments);
             break;
         }
-        console.log('sleeping: ', i);
-        i += 1;
-        yield sleep(2000);
+        case 'completed': {
+            const messages = yield openai.beta.threads.messages.list(thread.id);
+            const newestMessageContent = messages.data[0]
+                .content[0];
+            res.status(200).json(newestMessageContent.text.value);
+            break;
+        }
+        default:
+            break;
     }
-    const messages = yield openai.beta.threads.messages.list(thread.id);
-    console.log('out here:', (_a = runStatus.required_action) === null || _a === void 0 ? void 0 : _a.submit_tool_outputs.tool_calls[0].function.arguments);
-    res.json((_b = runStatus.required_action) === null || _b === void 0 ? void 0 : _b.submit_tool_outputs.tool_calls[0].function.arguments);
+    const tempRun = yield openai.beta.threads.runs.retrieve(thread.id, threadRun.id);
+    console.log('Final Run', tempRun);
 }));
 exports.default = router;

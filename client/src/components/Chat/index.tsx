@@ -26,16 +26,16 @@ const Chat: React.FC = () => {
     dispatch(addToChat(serializedMessage))
     try {
       const startTime = performance.now()
-      const response = await axios.get('http://localhost:8000/diagram', {
+      const response = await axios.get('http://localhost:8000/diagram-v2', {
         params: {
           message
         }
       })
       console.log('Time Elapsed:', performance.now() - startTime)
 
-      console.log(response)
+      const diagram: string = response.data
 
-      const diagram: string = response.data.result
+      // console.log('diagram:', diagram)
 
       if (isValidJSON(diagram)) {
         if (canvas === null) {
@@ -55,7 +55,7 @@ const Chat: React.FC = () => {
       }
       dispatch(addToChat(diagramSerialized))
     } catch (error) {
-      console.error('Error :(')
+      console.error('Error :(', error)
     }
   }
 
