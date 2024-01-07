@@ -7,19 +7,13 @@ import { Chat, Diagram, Navbar } from '../components'
 
 const Main: React.FC = () => {
   return (
-    <Box padding='1rem' height='100vh' sx={{ backgroundColor: grey[800] }}>
-      <Stack
-        height='100%'
-        sx={{ backgroundColor: grey[50] }}
-        borderRadius='0.5rem'
-      >
-        <Navbar />
-        <Stack direction='row' flex='1' height='100%'>
-          <Chat />
-          <Diagram />
-        </Stack>
+    <Stack height='100vh' width='100%' borderRadius='0.5rem'>
+      <Navbar />
+      <Stack direction='row' flex='1' height='calc(100vh - 49px)' width='100%'>
+        <Chat />
+        <Diagram />
       </Stack>
-    </Box>
+    </Stack>
   )
 }
 

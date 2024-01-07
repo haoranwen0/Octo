@@ -42,9 +42,9 @@ const Canvas: React.FC = () => {
   return (
     <Box height='100%' flex='1'>
       <Box width='100%' height='100%' position='relative'>
-        <Box position='absolute' width='100%' top='0' left='0' zIndex='99'>
+        {/* <Box position='absolute' width='100%' top='0' left='0' zIndex='99'>
           <Toolbar numNodes={canvas.nodes.length} setNodes={canvas.setNodes} />
-        </Box>
+        </Box> */}
         <Box width='100%' height='100%'>
           <ReactFlow
             nodes={canvas.nodes}

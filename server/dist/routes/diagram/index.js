@@ -26,12 +26,26 @@ const getGPTDiagramJSONCompletion = (message) => __awaiter(void 0, void 0, void 
         messages: [
             {
                 role: 'system',
-                content: data_1.gptDiagramAssistantInstruction
+                content: data_1.gptDiagramInst
             },
             message
-        ]
+        ],
+        tools: [
+            {
+                type: 'function',
+                function: data_1.gptDiagramJSONFn
+            }
+        ],
+        tool_choice: {
+            type: 'function',
+            function: {
+                name: 'design_system'
+            }
+        }
     });
-    return completion.choices[0].message.content;
+    console.log(JSON.stringify(completion));
+    const toolCallsOutput = completion.choices[0].message.tool_calls[0];
+    return toolCallsOutput.function.arguments;
 });
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prompt = req.query.message;

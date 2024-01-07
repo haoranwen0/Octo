@@ -1,8 +1,9 @@
 import { Request, Response, Router } from 'express'
 import OpenAI from 'openai'
 import dotenv from 'dotenv'
+import { ChatCompletionMessageToolCall } from 'openai/resources/chat/completions'
 
-import { gptDiagramAssistantInstruction } from './data'
+import { gptDiagramInst, gptDiagramJSONFn } from './data'
 
 dotenv.config()
 
@@ -24,12 +25,30 @@ const getGPTDiagramJSONCompletion = async (
     messages: [
       {
         role: 'system',
-        content: gptDiagramAssistantInstruction
+        content: gptDiagramInst
       },
       message
-    ]
+    ],
+    tools: [
+      {
+        type: 'function',
+        function: gptDiagramJSONFn
+      }
+    ],
+    tool_choice: {
+      type: 'function',
+      function: {
+        name: 'design_system'
+      }
+    }
   })
-  return completion.choices[0].message.content as string
+
+  console.log(JSON.stringify(completion))
+
+  const toolCallsOutput: ChatCompletionMessageToolCall =
+    completion.choices[0].message.tool_calls![0]
+
+  return toolCallsOutput.function.arguments
 }
 
 router.get('/', async (req: Request, res: Response) => {
@@ -41,7 +60,6 @@ router.get('/', async (req: Request, res: Response) => {
 
   try {
     const result = await getGPTDiagramJSONCompletion(message)
-
     res.status(200).json(result)
   } catch (error) {
     res.status(500).json(error)
