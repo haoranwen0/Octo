@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
       padding='0.5rem'
       justifyContent='space-between'
       borderBottom='1px solid'
-      borderColor={grey[200]}
+      borderColor={grey[300]}
       direction='row'
     >
       <Avatar

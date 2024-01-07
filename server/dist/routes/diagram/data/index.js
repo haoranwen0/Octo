@@ -43,7 +43,51 @@ const gptDiagramJSONFn = {
                 enum: ['create', 'update']
             }
         },
-        required: ['components']
+        dependencies: {
+            components: {
+                allOf: [
+                    {
+                        $ref: '#/definitions/containsChild'
+                    }
+                ]
+            }
+        },
+        definitions: {
+            containsChild: {
+                properties: {
+                    name: {
+                        type: 'string'
+                    },
+                    children: {
+                        type: 'array',
+                        items: {
+                            $ref: '#/definitions/containsChild'
+                        }
+                    }
+                },
+                allOf: [
+                    {
+                        contains: {
+                            properties: {
+                                name: {
+                                    type: 'string'
+                                }
+                            }
+                        }
+                    },
+                    {
+                        contains: {
+                            properties: {
+                                name: {
+                                    $ref: '#/definitions/containsChild'
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        required: ['components', 'type']
     }
 };
 exports.gptDiagramJSONFn = gptDiagramJSONFn;

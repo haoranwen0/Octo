@@ -20,7 +20,7 @@ dotenv_1.default.config();
 const router = (0, express_1.Router)();
 const apiKey = process.env.OPENAI_API_KEY;
 const openai = new openai_1.default({ apiKey });
-const getGPTDiagramJSONCompletion = (message) => __awaiter(void 0, void 0, void 0, function* () {
+const getGPTDiagramJSONCompletion = (messages) => __awaiter(void 0, void 0, void 0, function* () {
     const completion = yield openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [
@@ -28,7 +28,7 @@ const getGPTDiagramJSONCompletion = (message) => __awaiter(void 0, void 0, void 
                 role: 'system',
                 content: data_1.gptDiagramInst
             },
-            message
+            ...messages
         ],
         tools: [
             {
@@ -48,13 +48,16 @@ const getGPTDiagramJSONCompletion = (message) => __awaiter(void 0, void 0, void 
     return toolCallsOutput.function.arguments;
 });
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('here!');
+    console.log(req.query);
+    const prevMessages = JSON.parse(req.query.prevMessages);
     const prompt = req.query.message;
     const message = {
         role: 'user',
         content: prompt
     };
     try {
-        const result = yield getGPTDiagramJSONCompletion(message);
+        const result = yield getGPTDiagramJSONCompletion([...prevMessages, message]);
         res.status(200).json(result);
     }
     catch (error) {

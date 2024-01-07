@@ -1,126 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import { Button, Box, TextField, Typography, Stack } from '@mui/material'
-import { grey, blue } from '@mui/material/colors'
-import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
+import { Button, TextField, Stack, CircularProgress } from '@mui/material'
+import { grey } from '@mui/material/colors'
 
-import { isValidJSON } from '../../functions'
-import type { Component, Message, GPTJSON } from '../../interfaces'
-import { initializeCanvas } from '../../redux/slices/canvas-slice'
-import { addToChat } from '../../redux/slices/chat-slice'
-import type { IRootState } from '../../redux/store'
+import Messages from './Messages'
+import useChat from './useChat'
 
 const Chat: React.FC = () => {
-  const dispatch = useDispatch()
-  const conversation = useSelector((store: IRootState) => store.chat.value)
-  const canvas = useSelector((store: IRootState) => store.canvas.value)
-
-  const [message, setMessage] = useState<string>('')
-
-  React.useEffect(() => {
-    console.log(conversation)
-  }, [conversation])
-
-  async function onSubmit(): Promise<void> {
-    const serializedMessage: Message = {
-      role: 'user',
-      content: message
-    }
-
-    dispatch(addToChat(serializedMessage))
-
-    try {
-      const startTime = performance.now()
-      const response = await axios.get('http://localhost:8000/diagram', {
-        params: {
-          message
-        }
-      })
-      console.log('Time Elapsed:', performance.now() - startTime)
-
-      const diagram: string = response.data
-
-      if (isValidJSON(diagram)) {
-        if (canvas === null) {
-          dispatch(
-            initializeCanvas(JSON.parse(diagram).components as Component[])
-          )
-        } else {
-          console.log('Canvas already exists!')
-        }
-      }
-
-      console.log('diagram: ', diagram)
-      const diagramSerialized: Message = {
-        role: 'assistant',
-        content: diagram
-      }
-      dispatch(addToChat(diagramSerialized))
-    } catch (error) {
-      console.error('Error :(', error)
-    }
-  }
+  const chatUtils = useChat()
 
   return (
-    <Stack height='100%' width='300px'>
+    <Stack
+      height='100%'
+      width='300px'
+      borderRight='1px solid'
+      borderColor={grey[300]}
+    >
       <Stack padding='0.5rem' sx={{ overflowY: 'auto' }} flex={1} spacing={1}>
-        {conversation.map((message: Message, index: number) => {
-          return (
-            <Stack direction='row' width='100%' key={index}>
-              {message.role === 'user' ? (
-                <>
-                  <Box
-                    flex='1'
-                    padding='0.5rem'
-                    borderRadius='0.5rem'
-                    sx={{ backgroundColor: grey[200] }}
-                  >
-                    <Typography
-                      display='block'
-                      fontSize='0.875rem'
-                      sx={{ wordBreak: 'break-word' }}
-                    >
-                      {message.content}
-                    </Typography>
-                  </Box>
-                  <Box
-                    width='2rem'
-                    height='2rem'
-                    borderRadius='100%'
-                    marginLeft='0.5rem'
-                    sx={{ backgroundColor: blue[400] }}
-                  />
-                </>
-              ) : (
-                <>
-                  <Box
-                    width='2rem'
-                    height='2rem'
-                    borderRadius='100%'
-                    marginRight='0.5rem'
-                    sx={{ backgroundColor: blue[400] }}
-                  />
-                  <Box
-                    flex='1'
-                    height='fit-content'
-                    padding='0.5rem'
-                    borderRadius='0.5rem'
-                    sx={{ backgroundColor: grey[200] }}
-                  >
-                    <Typography
-                      display='block'
-                      fontSize='0.875rem'
-                      sx={{ wordBreak: 'break-word' }}
-                    >
-                      {message.content}
-                    </Typography>
-                  </Box>
-                </>
-              )}
-            </Stack>
-          )
-        })}
+        <Messages />
       </Stack>
       <Stack
         marginTop='auto'
@@ -134,11 +31,12 @@ const Chat: React.FC = () => {
           label='Describe your system'
           multiline
           rows={4}
-          value={message}
+          value={chatUtils.message}
           variant='filled'
           className='w-full'
+          disabled={chatUtils.loading}
           onChange={(e) => {
-            setMessage(e.target.value)
+            chatUtils.setMessage(e.target.value)
           }}
           sx={{
             '& .MuiFilledInput-root': {
@@ -156,11 +54,12 @@ const Chat: React.FC = () => {
           size='small'
           onClick={() => {
             void (async () => {
-              await onSubmit()
+              await chatUtils.onSubmit()
             })()
           }}
+          disabled={chatUtils.loading}
         >
-          Submit
+          {chatUtils.loading ? <CircularProgress size='1.5rem' /> : 'Submit'}
         </Button>
       </Stack>
     </Stack>

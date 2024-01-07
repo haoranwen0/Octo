@@ -13,12 +13,12 @@ const apiKey = process.env.OPENAI_API_KEY
 const openai = new OpenAI({ apiKey })
 
 type Message = {
-  role: 'user'
+  role: 'user' | 'system'
   content: string
 }
 
 const getGPTDiagramJSONCompletion = async (
-  message: Message
+  messages: Message[]
 ): Promise<string> => {
   const completion = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
@@ -27,7 +27,7 @@ const getGPTDiagramJSONCompletion = async (
         role: 'system',
         content: gptDiagramInst
       },
-      message
+      ...messages
     ],
     tools: [
       {
@@ -52,6 +52,11 @@ const getGPTDiagramJSONCompletion = async (
 }
 
 router.get('/', async (req: Request, res: Response) => {
+  console.log('here!')
+
+  console.log(req.query)
+
+  const prevMessages = JSON.parse(req.query.prevMessages as string) as Message[]
   const prompt = req.query.message as string
   const message: Message = {
     role: 'user',
@@ -59,7 +64,7 @@ router.get('/', async (req: Request, res: Response) => {
   }
 
   try {
-    const result = await getGPTDiagramJSONCompletion(message)
+    const result = await getGPTDiagramJSONCompletion([...prevMessages, message])
     res.status(200).json(result)
   } catch (error) {
     res.status(500).json(error)

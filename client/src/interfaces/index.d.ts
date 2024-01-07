@@ -9,7 +9,7 @@ export interface NodeData {
 }
 
 export interface Message {
-  role: 'user' | 'assistant'
+  role: 'user' | 'assistant' | 'octo'
   content: string
 }
 
