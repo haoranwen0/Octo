@@ -35,7 +35,7 @@ function parseJSONToGraph(
   const edges = initialEdges.slice();
 
   json.forEach((component, index) => {
-    const nodeId = `node-${index}`;
+    const nodeId = `node-${component.name}`;
     const node: Node = {
       id: nodeId,
       type: "CustomNode",
@@ -44,11 +44,34 @@ function parseJSONToGraph(
     };
 
     nodes.push(node);
+
+    if (component.children.length > 0) {
+      component.children.forEach((child) => {
+        const childNodeId = `node-${child}`;
+
+        // Check if the nodes list already has a node with the same id
+        const isChildNodeExists = nodes.some(
+          (existingNode) => existingNode.id === childNodeId
+        );
+
+        // If the child node doesn't exist, add it to the nodes list
+        if (!isChildNodeExists) {
+          const childNode: Node = {
+            id: childNodeId,
+            type: "CustomNode",
+            position: { x: 0, y: 0 }, // You may adjust the position accordingly
+            data: { label: child, icon: "default-icon" },
+          };
+
+          nodes.push(childNode);
+        }
+      });
+    }
   });
 
   let i = 0;
   json.forEach((component, index) => {
-    const nodeId = `node-${index}`;
+    const nodeId = `node-${component.name}`;
     component.children.forEach((child) => {
       const childNode = nodes.find((n) => n.data.label === child);
       if (childNode !== undefined) {
