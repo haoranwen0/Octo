@@ -1,4 +1,4 @@
-import { Component } from '../types'
+import type { Component } from '../types'
 
 const componentImageLink: Record<Component, string> = {
   'aws-database':
@@ -7,7 +7,7 @@ const componentImageLink: Record<Component, string> = {
     'https://www.freeiconspng.com/uploads/load-balancer-icon-0.png',
   server:
     'https://icons.veryicon.com/png/o/miscellaneous/open-ncloud/the-server-4.png',
-  user: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Ffree-png-vectors%2Fuser-icon&psig=AOvVaw3tCIMlrN99QoM2zFiyEgVa&ust=1703818034753000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLDUkPmOsYMDFQAAAAAdAAAAABBG',
+  user: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Ffree-png-vectors%2Fuser-icon&psig=AOvVaw3tCIMlrN99QoM2zFiyEgVa&ust=1703818034753000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLDUkPmOsYMDFQAAAAAdAAAAABBG'
 }
 
 export { componentImageLink }

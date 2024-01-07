@@ -1,43 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import { Box } from '@mui/material'
-import { grey } from '@mui/material/colors'
+import { Box } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import ReactFlow, {
   MiniMap,
   Background,
   Controls,
   MarkerType,
   ConnectionMode,
-  type ReactFlowInstance
-} from 'reactflow'
+  type ReactFlowInstance,
+} from "reactflow";
 
-import useDiagramCanvas from '../../../hooks/useDiagramCanvas'
-import CustomNode from '../../ReactFlow/ComponentNode'
-import ShapeNode from '../../ReactFlow/ShapeNode'
-import TextNode from '../../ReactFlow/TextNode'
-import Toolbar from '../Toolbar'
+import { parseJSONToGraph } from "../../../functions";
+import getLayoutedElements from "../../../functions/dagreGraph";
+import useDiagramCanvas from "../../../hooks/useDiagramCanvas";
+import CustomNode from "../../ReactFlow/ComponentNode";
+import ShapeNode from "../../ReactFlow/ShapeNode";
+import TextNode from "../../ReactFlow/TextNode";
+import Toolbar from "../Toolbar";
 
-import 'reactflow/dist/style.css'
+import "reactflow/dist/style.css";
 
 const nodeTypes = {
   CustomNode,
   TextNode,
-  ShapeNode
-}
+  ShapeNode,
+};
 
 const defaultEdgeOptions = {
   style: { strokeWidth: 1, stroke: grey[400] },
-  type: 'default',
+  type: "default",
   markerEnd: {
     type: MarkerType.ArrowClosed,
-    color: grey[400]
-  }
-}
+    color: grey[400],
+  },
+};
 
 const Canvas: React.FC = () => {
-  const [canvasRef, setCanvasRef] = useState<ReactFlowInstance | null>(null)
+  const [canvasRef, setCanvasRef] = useState<ReactFlowInstance | null>(null);
 
-  const canvas = useDiagramCanvas({ canvasRef })
+  const canvas = useDiagramCanvas({ canvasRef });
+  console.log(canvas.nodes);
+  console.log(canvas.edges);
 
   return (
     <Box height='100%' flex='1'>
@@ -55,25 +59,25 @@ const Canvas: React.FC = () => {
             nodeTypes={nodeTypes}
             defaultEdgeOptions={defaultEdgeOptions}
             onInit={(instance) => {
-              setCanvasRef(instance)
+              setCanvasRef(instance);
             }}
             connectionMode={ConnectionMode.Loose}
             fitView
           >
             <MiniMap
               style={{
-                height: 120
+                height: 120,
               }}
               zoomable
               pannable
             />
             <Controls />
-            <Background color='#757575' gap={16} />
+            <Background color="#757575" gap={16} />
           </ReactFlow>
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Canvas
+export default Canvas;
