@@ -1,4 +1,5 @@
-import Chat from "./Chat"
-import Diagram from "./Diagram"
+import Chat from './Chat'
+import Canvas from './Diagram/Canvas'
+import Navbar from './Navbar'
 
-export { Chat, Diagram }
+export { Chat, Canvas as Diagram, Navbar }

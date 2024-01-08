@@ -1,25 +1,24 @@
+import React from 'react'
+
 import {
   Route,
   RouterProvider,
   createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom"
+  createRoutesFromElements
+} from 'react-router-dom'
 
 // Layouts and pages imports
-import { Main } from "./pages"
+import { Main } from './pages'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/">
-      <Route
-        index
-        element={<Main />}
-      />
+    <Route path='/'>
+      <Route index element={<Main />} />
     </Route>
   )
 )
 
-const App = () => {
+const App: React.FC = () => {
   return <RouterProvider router={router} />
 }
 
