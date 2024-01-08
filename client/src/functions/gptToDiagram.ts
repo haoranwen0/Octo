@@ -85,7 +85,7 @@ function parseJSONToGraph(
           style: { strokeWidth: 3, stroke: "black" },
           target: childNode.id,
           targetHandle: null,
-          type: "default",
+          type: "smoothstep",
         };
         edges.push(edge);
       }

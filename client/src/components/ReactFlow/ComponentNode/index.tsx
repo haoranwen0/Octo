@@ -21,20 +21,8 @@ const CustomNode: React.FC<NodeProps<NodeData>> = (props) => {
         <Typography variant="body1">{data.label}</Typography>
       </Box>
       <Handle
-        id={`${props.id}-handle-top`}
-        type="target"
-        position={props.targetPosition ?? Position.Top}
-        className="!bg-teal-500"
-      />
-      <Handle
-        id={`${props.id}-handle-bottom`}
-        type="source"
-        position={props.sourcePosition ?? Position.Bottom}
-        className="!bg-teal-500"
-      />
-      <Handle
         id={`${props.id}-handle-left`}
-        type="source"
+        type="target"
         position={Position.Left}
         className="!bg-teal-500"
       />
@@ -42,6 +30,18 @@ const CustomNode: React.FC<NodeProps<NodeData>> = (props) => {
         id={`${props.id}-handle-right`}
         type="source"
         position={Position.Right}
+        className="!bg-teal-500"
+      />
+      <Handle
+        id={`${props.id}-handle-top`}
+        type="target"
+        position={Position.Top}
+        className="!bg-teal-500"
+      />
+      <Handle
+        id={`${props.id}-handle-bottom`}
+        type="source"
+        position={Position.Bottom}
         className="!bg-teal-500"
       />
     </Box>

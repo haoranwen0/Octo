@@ -1,38 +1,53 @@
-import React, { useState, memo, type ChangeEvent } from 'react'
+import React, { useState, memo, type ChangeEvent } from "react";
 
-import type { NodeData } from '../../../interfaces'
+import { TextField } from "@mui/material";
+import { NodeResizer, type NodeProps } from "reactflow";
+
+import type { NodeData } from "../../../interfaces";
 
 interface CustomNodeProps {
-  data: NodeData
+  data: NodeData;
 }
 
-const TextNode: React.FC<CustomNodeProps> = (props) => {
+const TextNode: React.FC<NodeProps<NodeData>> = (props) => {
+  const selected = props.selected;
+
   const [label, setLabel] = useState(
-    props.data.label !== '' ? props.data.label : 'Write here'
-  )
+    props.data.label !== "" ? props.data.label : "Write here"
+  );
 
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLabel(event.target.value)
-  }
+    setLabel(event.target.value);
+  };
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '200px',
-        height: '100px',
-        padding: '10px',
-        border: '1px solid #ddd'
-      }}
-    >
-      <input
-        type='text'
+    <>
+      <NodeResizer color="#ff0071" isVisible={selected} />
+      <TextField
+        id="outlined-multiline-flexible"
+        multiline
+        maxRows={4}
         value={label}
         onChange={handleTextChange}
-        style={{ width: '100%', marginBottom: '10px' }}
       />
-    </div>
-  )
-}
+    </>
+    // <div
+    //   style={{
+    //     position: 'relative',
+    //     width: '200px',
+    //     height: '100px',
+    //     padding: '10px',
+    //     border: '1px solid #ddd'
+    //   }}
+    // >
+    //   <input
+    //     type='text'
+    //     value={label}
+    //     onChange={handleTextChange}
+    //     style={{ width: '100%', marginBottom: '10px' }}
+    //   />
+    // </div>
+  );
+};
 
-export default memo(TextNode)
+export default memo(TextNode);

@@ -9,7 +9,7 @@ interface rootState {
 }
 
 const initialState: rootState = {
-  value: null
+  value: null,
 };
 
 export const canvasSlice = createSlice({
@@ -18,7 +18,7 @@ export const canvasSlice = createSlice({
   reducers: {
     initializeCanvas: (state, action: { payload: Component[] }) => {
       const { nodes: n, edges: e } = parseJSONToGraph(action.payload, [], []);
-      state.value = getLayoutedElements(n, e, "TB");
+      state.value = getLayoutedElements(n, e, "LR");
     },
   },
 });

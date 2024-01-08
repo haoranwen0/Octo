@@ -29,7 +29,7 @@ const nodeTypes = {
 
 const defaultEdgeOptions = {
   style: { strokeWidth: 1, stroke: grey[400] },
-  type: "default",
+  type: "smoothstep",
   markerEnd: {
     type: MarkerType.ArrowClosed,
     color: grey[400],
@@ -44,12 +44,12 @@ const Canvas: React.FC = () => {
   console.log(canvas.edges);
 
   return (
-    <Box height='100%' flex='1'>
-      <Box width='100%' height='100%' position='relative'>
-        {/* <Box position='absolute' width='100%' top='0' left='0' zIndex='99'>
+    <Box height="100%" flex="1">
+      <Box width="100%" height="100%" position="relative">
+        <Box position='absolute' width='100%' top='0' left='0' zIndex='99'>
           <Toolbar numNodes={canvas.nodes.length} setNodes={canvas.setNodes} />
-        </Box> */}
-        <Box width='100%' height='100%'>
+        </Box>
+        <Box width="100%" height="100%">
           <ReactFlow
             nodes={canvas.nodes}
             edges={canvas.edges}
