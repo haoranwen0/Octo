@@ -19,9 +19,7 @@ interface IUseChatReturnType {
 export default function useChat(): IUseChatReturnType {
   const dispatch = useDispatch()
   const canvas = useSelector((store: IRootState) => store.canvas.value)
-  const prevMessages = useSelector((store: IRootState) => {
-    return store.chat.value.filter((item) => item.role !== 'octo')
-  })
+  const messages = useSelector((store: IRootState) => store.chat.value)
 
   const [message, setMessage] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -35,6 +33,8 @@ export default function useChat(): IUseChatReturnType {
     dispatch(addToChat(serializedMessage))
 
     setLoading(true)
+
+    const prevMessages = messages.filter((item) => item.role !== 'octo')
 
     try {
       const startTime = performance.now()
