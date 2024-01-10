@@ -1,6 +1,8 @@
 import { type Node, type Edge, MarkerType } from "reactflow";
 
+import { componentImageLink } from "../data/component-images";
 import type { Component, Canvas } from "../interfaces";
+import { type Component as C } from "../types";
 
 /**
 nodes are list of json:
@@ -36,11 +38,20 @@ function parseJSONToGraph(
 
   json.forEach((component, index) => {
     const nodeId = `node-${component.name}`;
+    const modifiedComponentName = component.name
+      .toLowerCase()
+      .replace(/\s+/g, "-");
     const node: Node = {
       id: nodeId,
       type: "CustomNode",
       position: { x: 0, y: 0 },
-      data: { label: component.name, icon: "default-icon" },
+      data: {
+        label: component.name,
+        icon:
+          (modifiedComponentName as C) in componentImageLink
+            ? componentImageLink[modifiedComponentName as C]
+            : componentImageLink.default,
+      },
     };
 
     nodes.push(node);
