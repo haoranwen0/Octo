@@ -23,6 +23,7 @@ const TextNode: React.FC<NodeProps<NodeData>> = (props) => {
     >
       <NodeResizer color='#ff0071' isVisible={props.selected && !editing} />
       <EditableText
+        nodeID={props.id}
         label={props.data.label}
         editing={editing}
         setEditing={setEditing}

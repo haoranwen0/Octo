@@ -7,14 +7,18 @@ import React, {
 } from 'react'
 
 import { TextField, Typography } from '@mui/material'
+import { useReactFlow } from 'reactflow'
 
 interface EditableTextProps {
+  nodeID: string
   label: string
   editing: boolean
   setEditing: Dispatch<SetStateAction<boolean>>
 }
 
 const EditableText: React.FC<EditableTextProps> = (props) => {
+  const { setNodes } = useReactFlow()
+
   const textfieldRef = useRef<HTMLDivElement>(null)
   const [editing, setEditing] = useState<boolean>(false)
   const [label, setLabel] = useState<string>(props.label)
@@ -35,6 +39,14 @@ const EditableText: React.FC<EditableTextProps> = (props) => {
           autoFocus
           onBlur={() => {
             setEditing(false)
+            setNodes((prevNodes) =>
+              prevNodes.map((node) => {
+                if (node.id === props.nodeID) {
+                  node.data = { ...node.data, label }
+                }
+                return node
+              })
+            )
           }}
           className='nodrag'
         />

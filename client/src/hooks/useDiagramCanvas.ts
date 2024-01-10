@@ -59,7 +59,7 @@ export default function useDiagramCanvas(
 
   const debouncedCanvas = useDebounce(
     JSON.stringify(params.canvasRef?.toObject()),
-    5_000
+    2_000
   )
 
   useEffect(() => {
