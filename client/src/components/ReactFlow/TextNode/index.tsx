@@ -1,35 +1,18 @@
-import React, {
-  Fragment,
-  useState,
-  useRef,
-  memo,
-  type ChangeEvent
-} from 'react'
+import React, { useState, useRef, memo, type ChangeEvent } from 'react'
 
-import { Box, Stack, TextField, Typography } from '@mui/material'
+import { Stack, TextField, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
 import { NodeResizer, type NodeProps } from 'reactflow'
 
 import type { NodeData } from '../../../interfaces'
+import EditableText from '../EditableText'
 
 const TextNode: React.FC<NodeProps<NodeData>> = (props) => {
-  const selected = props.selected
-
-  const textfieldRef = useRef<HTMLDivElement>(null)
-
   const [editing, setEditing] = useState<boolean>(false)
-  const [label, setLabel] = useState(
-    props.data.label !== '' ? props.data.label : 'Write here'
-  )
-
-  const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLabel(event.target.value)
-  }
 
   return (
     <Stack
-      sx={{ backgroundColor: 'white' }}
-      // width='100%'
+      sx={{ backgroundColor: 'white', cursor: 'move' }}
       height='100%'
       border='2px solid'
       borderColor={grey[400]}
@@ -38,39 +21,12 @@ const TextNode: React.FC<NodeProps<NodeData>> = (props) => {
       alignItems='center'
       padding='1rem'
     >
-      <NodeResizer color='#ff0071' isVisible={selected && !editing} />
-      {editing ? (
-        <TextField
-          id='outlined-multiline-flexible'
-          multiline
-          fullWidth
-          value={label}
-          onChange={handleTextChange}
-          inputProps={{ style: { textAlign: 'center' } }}
-          ref={textfieldRef}
-          autoFocus
-          onBlur={() => {
-            setEditing(false)
-          }}
-          className='nodrag'
-        />
-      ) : (
-        <div
-          style={{
-            width: '100%',
-            height: textfieldRef.current?.clientHeight,
-            padding: '1.03125rem 0.875rem',
-            backgroundColor: 'red'
-          }}
-          onDoubleClick={() => {
-            setEditing(true)
-          }}
-        >
-          <Typography variant='body1' textAlign='center' color='#000000DE'>
-            {label}
-          </Typography>
-        </div>
-      )}
+      <NodeResizer color='#ff0071' isVisible={props.selected && !editing} />
+      <EditableText
+        label={props.data.label}
+        editing={editing}
+        setEditing={setEditing}
+      />
     </Stack>
   )
 }

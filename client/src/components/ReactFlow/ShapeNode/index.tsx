@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
-import { grey } from '@mui/material/colors'
+import { grey, teal } from '@mui/material/colors'
 import { Handle, Position, NodeResizer, type NodeProps } from 'reactflow'
 
 import type { NodeData } from '../../../interfaces'
@@ -30,24 +30,28 @@ const ShapeNode: React.FC<NodeProps<NodeData>> = (props) => {
         <Typography fontSize='0.875rem'>{data.shape}</Typography>
       </Grid>
       <Handle
-        id={`${props.id}-handle-top`}
         type='source'
         position={Position.Top}
+        id={`${props.id}-handle-top`}
+        style={{ backgroundColor: teal[400] }}
       />
       <Handle
-        id={`${props.id}-handle-left`}
         type='source'
         position={Position.Left}
+        id={`${props.id}-handle-left`}
+        style={{ backgroundColor: teal[400] }}
       />
       <Handle
-        id={`${props.id}-handle-bottom`}
         type='source'
         position={Position.Bottom}
+        id={`${props.id}-handle-bottom`}
+        style={{ backgroundColor: teal[400] }}
       />
       <Handle
-        id={`${props.id}-handle-right`}
         type='source'
         position={Position.Right}
+        id={`${props.id}-handle-right`}
+        style={{ backgroundColor: teal[400] }}
       />
     </Box>
   )
