@@ -1,51 +1,74 @@
-import React, { memo } from "react";
+import React, { memo } from 'react'
 
-import { Box, Typography } from "@mui/material";
-import { Handle, Position, type NodeProps } from "reactflow";
+import { Box, Grid, Stack, Typography } from '@mui/material'
+import { grey, teal } from '@mui/material/colors'
+import { Handle, Position, type NodeProps, NodeResizer } from 'reactflow'
 
-import type { NodeData } from "../../../interfaces";
+import type { NodeData } from '../../../interfaces'
 
 const CustomNode: React.FC<NodeProps<NodeData>> = (props) => {
-  const data = props.data;
+  const data = props.data
+  const selected = props.selected
 
   return (
-    <Box className="px-4 py-2 rounded-md bg-white border-2 border-stone-400">
-      <Box component="div" className="flex items-center">
-        <Box component="div" className="rounded-full grid place-content-center">
+    <Box
+      width='100%'
+      height='100%'
+      paddingX='1rem'
+      paddingY='0.5rem'
+      border='2px solid'
+      borderColor={grey[400]}
+      borderRadius='0.375rem'
+      sx={{ backgroundColor: 'white', cursor: 'move' }}
+    >
+      <NodeResizer color='#ff0071' isVisible={selected} />
+      <Stack
+        width='100%'
+        height='100%'
+        flexDirection='row'
+        alignItems='center'
+        justifyContent='center'
+      >
+        <Grid borderRadius='100%' alignItems='center' justifyContent='center'>
           <Box
-            component="img"
+            component='img'
             src={data.icon}
-            className="w-12 h-12 object-contain mr-2"
+            width='2.5rem'
+            height='2.5rem'
+            marginRight='0.5rem'
+            sx={{ objectFit: 'contain' }}
           />
-        </Box>
-        <Typography variant="body1">{data.label}</Typography>
-      </Box>
+        </Grid>
+        <Typography variant='body1' fontSize='0.875rem'>
+          {data.label}
+        </Typography>
+      </Stack>
       <Handle
-        id={`${props.id}-handle-left`}
-        type="target"
+        type='source'
         position={Position.Left}
-        className="!bg-teal-500"
+        id={`${props.id}-handle-left`}
+        style={{ backgroundColor: teal[400] }}
       />
       <Handle
-        id={`${props.id}-handle-right`}
-        type="source"
+        type='source'
         position={Position.Right}
-        className="!bg-teal-500"
+        id={`${props.id}-handle-right`}
+        style={{ backgroundColor: teal[400] }}
       />
       <Handle
-        id={`${props.id}-handle-top`}
-        type="target"
+        type='source'
         position={Position.Top}
-        className="!bg-teal-500"
+        id={`${props.id}-handle-top`}
+        style={{ backgroundColor: teal[400] }}
       />
       <Handle
-        id={`${props.id}-handle-bottom`}
-        type="source"
+        type='source'
         position={Position.Bottom}
-        className="!bg-teal-500"
+        id={`${props.id}-handle-bottom`}
+        style={{ backgroundColor: teal[400] }}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default memo(CustomNode);
+export default memo(CustomNode)

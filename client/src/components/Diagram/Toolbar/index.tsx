@@ -90,9 +90,7 @@ const Toolbar: React.FC<IToolbarComponent> = ({ numNodes, setNodes }) => {
       marginBottom='1rem'
       borderBottom='1px solid'
       borderColor={grey[200]}
-      sx={{
-        backgroundColor: grey[50]
-      }}
+      sx={{ backgroundColor: 'white' }}
     >
       <Box
         width='12rem'
