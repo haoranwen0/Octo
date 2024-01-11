@@ -1,6 +1,8 @@
 import { type Node, type Edge, MarkerType } from "reactflow";
 
+import { componentImageLink } from "../data/component-images";
 import type { Component, Canvas } from "../interfaces";
+import { type Component as C } from "../types";
 
 /**
 nodes are list of json:
@@ -36,11 +38,21 @@ function parseJSONToGraph(
 
   json.forEach((component, index) => {
     const nodeId = `node-${component.name}`;
+    const modifiedComponentName = component.name
+      .toLowerCase()
+      .replace(/\s+/g, "-");
+    console.log(modifiedComponentName);
     const node: Node = {
       id: nodeId,
       type: "CustomNode",
       position: { x: 0, y: 0 },
-      data: { label: component.name, icon: "default-icon" },
+      data: {
+        label: component.name,
+        icon:
+          (modifiedComponentName as C) in componentImageLink
+            ? componentImageLink[modifiedComponentName as C]
+            : componentImageLink.default,
+      },
     };
 
     nodes.push(node);
@@ -56,11 +68,20 @@ function parseJSONToGraph(
 
         // If the child node doesn't exist, add it to the nodes list
         if (!isChildNodeExists) {
+          const modifiedComponentName = component.name
+            .toLowerCase()
+            .replace(/\s+/g, "-");
           const childNode: Node = {
             id: childNodeId,
             type: "CustomNode",
             position: { x: 0, y: 0 }, // You may adjust the position accordingly
-            data: { label: child, icon: "default-icon" },
+            data: {
+              label: child,
+              icon:
+                (modifiedComponentName as C) in componentImageLink
+                  ? componentImageLink[modifiedComponentName as C]
+                  : componentImageLink.default,
+            },
           };
 
           nodes.push(childNode);
