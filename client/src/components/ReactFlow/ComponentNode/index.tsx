@@ -4,7 +4,7 @@ import { Box, Grid, Stack, Typography } from '@mui/material'
 import { grey, teal } from '@mui/material/colors'
 import { Handle, Position, type NodeProps, NodeResizer } from 'reactflow'
 
-import type { NodeData } from '../../../interfaces'
+import type { NodeData } from '../../../types'
 
 const CustomNode: React.FC<NodeProps<NodeData>> = (props) => {
   const data = props.data

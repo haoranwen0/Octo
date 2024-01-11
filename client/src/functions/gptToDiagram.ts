@@ -1,8 +1,7 @@
-import { type Node, type Edge, MarkerType } from "reactflow";
+import { type Node, type Edge, MarkerType } from 'reactflow'
 
-import { componentImageLink } from "../data/component-images";
-import type { Component, Canvas } from "../interfaces";
-import { type Component as C } from "../types";
+import { componentImageLink } from '../data/component-images'
+import type { JSONComponent, Canvas, Component as C } from '../types'
 
 /**
 nodes are list of json:
@@ -29,91 +28,91 @@ nodes are list of json:
 */
 
 function parseJSONToGraph(
-  json: Component[],
+  json: JSONComponent[],
   initialNodes: Node[],
   initialEdges: Edge[]
 ): Canvas {
-  const nodes = initialNodes.slice();
-  const edges = initialEdges.slice();
+  const nodes = initialNodes.slice()
+  const edges = initialEdges.slice()
 
   json.forEach((component, index) => {
-    const nodeId = `node-${component.name}`;
+    const nodeId = `node-${component.name}`
     const modifiedComponentName = component.name
       .toLowerCase()
-      .replace(/\s+/g, "-");
-    console.log(modifiedComponentName);
+      .replace(/\s+/g, '-')
+    console.log(modifiedComponentName)
     const node: Node = {
       id: nodeId,
-      type: "CustomNode",
+      type: 'CustomNode',
       position: { x: 0, y: 0 },
       data: {
         label: component.name,
         icon:
           (modifiedComponentName as C) in componentImageLink
             ? componentImageLink[modifiedComponentName as C]
-            : componentImageLink.default,
-      },
-    };
+            : componentImageLink.default
+      }
+    }
 
-    nodes.push(node);
+    nodes.push(node)
 
     if (component.children.length > 0) {
       component.children.forEach((child) => {
-        const childNodeId = `node-${child}`;
+        const childNodeId = `node-${child}`
 
         // Check if the nodes list already has a node with the same id
         const isChildNodeExists = nodes.some(
           (existingNode) => existingNode.id === childNodeId
-        );
+        )
 
         // If the child node doesn't exist, add it to the nodes list
         if (!isChildNodeExists) {
           const modifiedComponentName = component.name
             .toLowerCase()
-            .replace(/\s+/g, "-");
+            .replace(/\s+/g, '-')
           const childNode: Node = {
             id: childNodeId,
-            type: "CustomNode",
+            type: 'CustomNode',
             position: { x: 0, y: 0 }, // You may adjust the position accordingly
             data: {
               label: child,
               icon:
                 (modifiedComponentName as C) in componentImageLink
                   ? componentImageLink[modifiedComponentName as C]
-                  : componentImageLink.default,
-            },
-          };
+                  : componentImageLink.default
+            }
+          }
 
-          nodes.push(childNode);
+          nodes.push(childNode)
         }
-      });
+      })
     }
-  });
+  })
 
-  let i = 0;
+  let i = 0
   json.forEach((component, index) => {
-    const nodeId = `node-${component.name}`;
+    const nodeId = `node-${component.name}`
     component.children.forEach((child) => {
-      const childNode = nodes.find((n) => n.data.label === child);
+      const childNode = nodes.find((n) => n.data.label === child)
       if (childNode !== undefined) {
-        const edgeId = `edge-${i}-${childNode.id}`;
-        i++;
+        const edgeId = `edge-${i}-${childNode.id}`
+        i++
         const edge: Edge = {
           id: edgeId,
-          markerEnd: { type: MarkerType.ArrowClosed, color: "black" },
+          markerEnd: { type: MarkerType.ArrowClosed, color: 'black' },
           source: nodeId,
           sourceHandle: null,
-          style: { strokeWidth: 3, stroke: "black" },
+          style: { strokeWidth: 3, stroke: 'black' },
           target: childNode.id,
           targetHandle: null,
-          type: "smoothstep",
-        };
-        edges.push(edge);
+          type: 'smoothstep'
+        }
+        edges.push(edge)
       }
-    });
-  });
+    })
+  })
 
-  return { nodes, edges };
+  return { nodes, edges }
 }
 
-export default parseJSONToGraph;
+export default parseJSONToGraph

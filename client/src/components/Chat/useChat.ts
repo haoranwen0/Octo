@@ -4,10 +4,10 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { isValidJSON } from '../../functions'
-import type { Component, Message } from '../../interfaces'
 import { initializeCanvas } from '../../redux/slices/canvas-slice'
 import { addToChat } from '../../redux/slices/chat-slice'
 import type { IRootState } from '../../redux/store'
+import type { JSONComponent, Message } from '../../types'
 
 interface IUseChatReturnType {
   message: string
@@ -55,7 +55,7 @@ export default function useChat(): IUseChatReturnType {
       if (isValidJSON(diagram)) {
         const resJSON = JSON.parse(diagram)
         // if (canvas === null) {
-        dispatch(initializeCanvas(resJSON.components as Component[]))
+        dispatch(initializeCanvas(resJSON.components as JSONComponent[]))
 
         const diagramSerialized: Message = {
           role: 'assistant',

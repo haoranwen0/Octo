@@ -1,11 +1,11 @@
 import React from 'react'
 
 import { Box, Stack, Typography } from '@mui/material'
-import { blue, grey, purple } from '@mui/material/colors'
+import { blue, grey } from '@mui/material/colors'
 import { useSelector } from 'react-redux'
 
-import type { Message } from '../../../interfaces'
 import type { IRootState } from '../../../redux/store'
+import type { Message } from '../../../types'
 
 const Messages: React.FC = () => {
   const conversation = useSelector((store: IRootState) => store.chat.value)

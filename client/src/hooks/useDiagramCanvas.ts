@@ -21,8 +21,8 @@ import {
 import { useDebounce, useLocalStorage } from 'usehooks-ts'
 
 import { initialNodes } from '../data/mock-nodes'
-import type { NodeData, Nodes } from '../interfaces'
 import type { IRootState } from '../redux/store'
+import type { NodeData, Nodes } from '../types'
 
 interface IUseDiagramCanvasParams {
   canvasRef: ReactFlowInstance | null

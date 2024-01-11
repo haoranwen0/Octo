@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { grey, teal } from '@mui/material/colors'
 import { Handle, Position, NodeResizer, type NodeProps } from 'reactflow'
 
-import type { NodeData } from '../../../interfaces'
+import type { NodeData } from '../../../types'
 
 const ShapeNode: React.FC<NodeProps<NodeData>> = (props) => {
   const data = props.data

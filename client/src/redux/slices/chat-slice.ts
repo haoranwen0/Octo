@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import type { Message } from '../../interfaces'
+import type { Message } from '../../types'
 
 interface rootState {
   value: Message[]
