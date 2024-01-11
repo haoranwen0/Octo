@@ -25,6 +25,7 @@ const TextNode: React.FC<NodeProps<NodeData>> = (props) => {
       <EditableText
         nodeID={props.id}
         label={props.data.label}
+        typography={props.data.typography}
         editing={editing}
         setEditing={setEditing}
       />

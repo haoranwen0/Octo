@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, TextField, Stack, CircularProgress } from '@mui/material'
+import { Button, TextField, Stack, CircularProgress, Box } from '@mui/material'
 import { grey } from '@mui/material/colors'
 
 import Messages from './Messages'
@@ -16,7 +16,13 @@ const Chat: React.FC = () => {
       borderRight='1px solid'
       borderColor={grey[300]}
     >
-      <Stack padding='0.5rem' sx={{ overflowY: 'auto' }} flex={1} spacing={1}>
+      <Stack
+        padding='0.5rem 0.5rem 0 0.5rem'
+        paddingBottom='3rem'
+        sx={{ overflowY: 'auto' }}
+        flex={1}
+        spacing={1}
+      >
         <Messages />
       </Stack>
       <Stack
@@ -25,7 +31,20 @@ const Chat: React.FC = () => {
         component='form'
         padding='0.5rem'
         height='fit-content'
+        position='relative'
+        width='100%'
       >
+        <Box
+          width='100%'
+          height='4rem'
+          sx={{
+            background:
+              'linear-gradient(0deg, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%)'
+          }}
+          position='absolute'
+          bottom='100%'
+          left='0'
+        />
         <TextField
           id='filled-multiline-static'
           label='Describe your system'
@@ -66,4 +85,4 @@ const Chat: React.FC = () => {
   )
 }
 
-export default Chat;
+export default Chat

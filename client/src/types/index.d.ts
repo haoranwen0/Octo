@@ -1,5 +1,8 @@
 import type { Node, Edge } from 'reactflow'
 
+/**
+ * Toolbar type definitions
+ */
 export type Component =
   | 'aws-database'
   | 'server'
@@ -11,13 +14,19 @@ export type Component =
   | 'aws-api-gateway'
   | 'stripe-payment-api'
   | 'default'
-
 export type Shape = 'rectangle' | 'circle' | 'square'
-
 export type Font = 'times-new-roman' | 'arial'
 
+/**
+ * React flow node data
+ */
+type Typography = {
+  fontSize: number
+  font: Font
+}
 export type NodeData = {
   label: string
+  typography: Typography
   icon?: string
   shape?: Shape
 }

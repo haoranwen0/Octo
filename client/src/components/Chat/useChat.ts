@@ -61,18 +61,16 @@ export default function useChat(): IUseChatReturnType {
           role: 'assistant',
           content: JSON.stringify(resJSON)
         }
+
         dispatch(addToChat(diagramSerialized))
 
-        if (resJSON.type === 'create') {
-          dispatch(
-            addToChat({
-              role: 'octo',
-              content: 'Diagram created!'
-            })
-          )
-        }
-        // } else {
-        //   console.log('Canvas already exists!')
+        // if (resJSON.type === 'create') {
+        //   dispatch(
+        //     addToChat({
+        //       role: 'octo',
+        //       content: 'Diagram created!'
+        //     })
+        //   )
         // }
       }
     } catch (error) {

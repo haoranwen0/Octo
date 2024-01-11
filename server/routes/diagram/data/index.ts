@@ -11,6 +11,7 @@ make up the system. Some examples of components include a ReactJS frontend compo
 DynamoDB database component, an edge computing component, and a Cloudflare component.
 I want you to accept queries for desired systems and return the components that make up the system
 and their connections. Each component must have a parent or must have at least one child.
+Also return a description of the system you designed. What each component does. How they connect and why they are important.
 Your output must be in JSON format.`
 
 const gptDiagramJSONFn = {
@@ -41,11 +42,16 @@ const gptDiagramJSONFn = {
           required: ['name', 'children']
         }
       },
-      type: {
+      // type: {
+      //   type: 'string',
+      //   description:
+      //     'Whether the components is a new creation of diagram, or updating the existing one.',
+      //   enum: ['create']
+      // },
+      description: {
         type: 'string',
         description:
-          'Whether the components is a new creation of diagram, or updating the existing one.',
-        enum: ['create', 'update']
+          'A description on the system as a whole. What each component is responsible for. Why they are important, and how they are connected with each other.'
       }
     },
     dependencies: {
@@ -92,7 +98,7 @@ const gptDiagramJSONFn = {
         ]
       }
     },
-    required: ['components', 'type']
+    required: ['components', 'type', 'description']
   }
 }
 

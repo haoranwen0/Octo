@@ -49,7 +49,7 @@ export default function useDiagramCanvas(
   const [nodes, setNodes, onNodesChange] = useNodesState<NodeData>(
     canvas !== undefined && canvas !== ''
       ? ((JSON.parse(canvas) as ReactFlowJsonObject).nodes as Nodes)
-      : initialNodes
+      : []
   )
   const [edges, setEdges, onEdgesChange] = useEdgesState(
     canvas !== undefined && canvas !== ''
@@ -59,7 +59,7 @@ export default function useDiagramCanvas(
 
   const debouncedCanvas = useDebounce(
     JSON.stringify(params.canvasRef?.toObject()),
-    2_000
+    1_000
   )
 
   useEffect(() => {
@@ -76,7 +76,6 @@ export default function useDiagramCanvas(
 
   const onConnect: OnConnect = useCallback(
     (params: Connection) => {
-      console.log(params)
       setEdges((eds) => addEdge(params, eds))
     },
     [setEdges]

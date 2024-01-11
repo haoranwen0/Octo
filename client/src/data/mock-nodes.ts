@@ -1,41 +1,59 @@
-import type { Node } from "reactflow";
+import type { Node } from 'reactflow'
 
-const initialNodes: Node[] = [
+import type { NodeData } from '../types'
+
+const initialNodes: Array<Node<NodeData>> = [
   {
-    id: "1",
+    id: '1',
     position: { x: 0, y: 0 },
-    type: "CustomNode",
+    type: 'CustomNode',
     data: {
-      label: "AWS DynamoDB",
-      icon: "https://static-00.iconduck.com/assets.00/aws-dynamodb-icon-454x512-53ebjxww.png",
-    },
+      label: 'AWS DynamoDB',
+      icon: 'https://static-00.iconduck.com/assets.00/aws-dynamodb-icon-454x512-53ebjxww.png',
+      typography: {
+        font: 'arial',
+        fontSize: 16
+      }
+    }
   },
   {
-    id: "2",
+    id: '2',
     position: { x: 0, y: 100 },
-    type: "CustomNode",
+    type: 'CustomNode',
     data: {
-      label: "AWS S3",
-      icon: "https://static-00.iconduck.com/assets.00/aws-s3-simple-storage-service-icon-423x512-sofvbo3x.png",
-    },
+      label: 'AWS S3',
+      icon: 'https://static-00.iconduck.com/assets.00/aws-s3-simple-storage-service-icon-423x512-sofvbo3x.png',
+      typography: {
+        font: 'arial',
+        fontSize: 16
+      }
+    }
   },
   {
-    id: "3",
+    id: '3',
     position: { x: 0, y: 10 },
-    type: "TextNode",
+    type: 'TextNode',
     data: {
-      label: "",
-    },
+      label: '',
+      typography: {
+        font: 'arial',
+        fontSize: 16
+      }
+    }
   },
   {
-    id: "4",
+    id: '4',
     position: { x: 0, y: 10 },
-    type: "ShapeNode",
+    type: 'ShapeNode',
     data: {
-      label: "",
-      shape: "square",
-    },
-  },
-];
+      label: '',
+      shape: 'square',
+      typography: {
+        font: 'arial',
+        fontSize: 16
+      }
+    }
+  }
+]
 
-export { initialNodes };
+export { initialNodes }

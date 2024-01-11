@@ -22,7 +22,7 @@ const apiKey = process.env.OPENAI_API_KEY;
 const openai = new openai_1.default({ apiKey });
 const getGPTDiagramJSONCompletion = (messages) => __awaiter(void 0, void 0, void 0, function* () {
     const completion = yield openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4',
         messages: [
             {
                 role: 'system',

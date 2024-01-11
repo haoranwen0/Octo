@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { Box, Stack, Typography } from '@mui/material'
-import { blue, grey } from '@mui/material/colors'
+import { blue, purple, grey } from '@mui/material/colors'
 import { useSelector } from 'react-redux'
 
 import type { IRootState } from '../../../redux/store'
@@ -13,46 +13,42 @@ const Messages: React.FC = () => {
   return (
     <>
       {conversation.map((message: Message, index: number) => {
+        const isUserMessage = message.role === 'user'
+
         return (
-          <Stack direction='row' width='100%' key={index}>
-            {message.role === 'user' ? (
-              <React.Fragment>
-                <Box
-                  flex='1'
-                  padding='0.5rem'
-                  borderRadius='0.5rem'
-                  sx={{ backgroundColor: grey[100] }}
-                >
-                  <Typography
-                    display='block'
-                    fontSize='0.875rem'
-                    sx={{ wordBreak: 'break-word' }}
-                  >
-                    {message.content}
-                  </Typography>
-                </Box>
-                <Box
-                  width='2rem'
-                  height='2rem'
-                  borderRadius='100%'
-                  marginLeft='0.5rem'
-                  sx={{ backgroundColor: blue[400] }}
-                />
-              </React.Fragment>
-            ) : message.role === 'octo' ? (
-              <React.Fragment>
+          <Stack
+            direction={isUserMessage ? 'row' : 'row-reverse'}
+            width='100%'
+            key={index}
+          >
+            <Fragment>
+              <Box
+                flex='1'
+                padding='0.5rem'
+                borderRadius='0.5rem'
+                sx={{ backgroundColor: grey[100] }}
+              >
                 <Typography
                   display='block'
                   fontSize='0.875rem'
-                  textAlign='center'
-                  width='100%'
+                  sx={{ wordBreak: 'break-word' }}
                 >
-                  {message.content}
+                  {isUserMessage
+                    ? message.content
+                    : JSON.parse(message.content).description}
                 </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment></React.Fragment>
-            )}
+              </Box>
+              <Box
+                width='2rem'
+                height='2rem'
+                borderRadius='100%'
+                marginLeft={isUserMessage ? '0.5rem' : '0'}
+                marginRight={!isUserMessage ? '0.5rem' : '0'}
+                sx={{
+                  backgroundColor: isUserMessage ? blue[400] : purple[400]
+                }}
+              />
+            </Fragment>
           </Stack>
         )
       })}

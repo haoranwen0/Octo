@@ -7,19 +7,16 @@ import { Handle, Position, NodeResizer, type NodeProps } from 'reactflow'
 import type { NodeData } from '../../../types'
 
 const ShapeNode: React.FC<NodeProps<NodeData>> = (props) => {
-  const data = props.data
-  const selected = props.selected
-
   return (
     <Box
       width='100%'
       height='100%'
       border='2px solid'
       borderColor={grey[400]}
-      borderRadius={data.shape === 'circle' ? '100%' : '0.375rem'}
+      borderRadius={props.data.shape === 'circle' ? '100%' : '0.375rem'}
       sx={{ backgroundColor: 'white', cursor: 'move' }}
     >
-      <NodeResizer color='#ff0071' isVisible={selected} />
+      <NodeResizer color='#ff0071' isVisible={props.selected} />
       <Grid
         container
         width='100%'
@@ -27,7 +24,7 @@ const ShapeNode: React.FC<NodeProps<NodeData>> = (props) => {
         justifyContent='center'
         alignItems='center'
       >
-        <Typography fontSize='0.875rem'>{data.shape}</Typography>
+        <Typography fontSize='0.875rem'>{props.data.shape}</Typography>
       </Grid>
       <Handle
         type='source'
