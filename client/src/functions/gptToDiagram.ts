@@ -41,6 +41,7 @@ function parseJSONToGraph(
     const modifiedComponentName = component.name
       .toLowerCase()
       .replace(/\s+/g, "-");
+    console.log(modifiedComponentName);
     const node: Node = {
       id: nodeId,
       type: "CustomNode",
@@ -67,11 +68,20 @@ function parseJSONToGraph(
 
         // If the child node doesn't exist, add it to the nodes list
         if (!isChildNodeExists) {
+          const modifiedComponentName = component.name
+            .toLowerCase()
+            .replace(/\s+/g, "-");
           const childNode: Node = {
             id: childNodeId,
             type: "CustomNode",
             position: { x: 0, y: 0 }, // You may adjust the position accordingly
-            data: { label: child, icon: "default-icon" },
+            data: {
+              label: child,
+              icon:
+                (modifiedComponentName as C) in componentImageLink
+                  ? componentImageLink[modifiedComponentName as C]
+                  : componentImageLink.default,
+            },
           };
 
           nodes.push(childNode);
